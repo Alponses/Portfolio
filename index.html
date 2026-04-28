@@ -726,55 +726,6 @@
       white-space: nowrap;
     }
 
-    /* ============================================================
-       PIPELINE SECTION
-    ============================================================ */
-    .pipeline-track {
-      display: flex; gap: 0;
-      overflow-x: auto;
-      padding-bottom: .5rem;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: thin;
-      scrollbar-color: var(--border) transparent;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
-    .pipeline-stage {
-      min-width: 170px; flex-shrink: 0;
-      padding: 1.25rem 1rem;
-      border-right: 1px solid var(--border);
-      scroll-snap-align: start;
-      transition: background var(--transition);
-      position: relative;
-    }
-    .pipeline-stage:last-child { border-right: none; }
-    .pipeline-stage::after {
-      content: '›';
-      position: absolute; right: -10px; top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted); font-size: 1.2rem;
-      z-index: 2; pointer-events: none;
-    }
-    .pipeline-stage:last-child::after { display: none; }
-    .pipeline-stage:hover { background: rgba(255,255,255,.03); }
-    .pipeline-num {
-      font-size: .68rem; font-weight: 600; letter-spacing: .06em;
-      text-transform: uppercase; color: var(--muted); margin-bottom: .4rem;
-    }
-    .pipeline-name {
-      font-family: var(--font-display);
-      font-size: .9rem; font-weight: 700;
-      color: var(--text-primary); margin-bottom: .5rem;
-    }
-    .pipeline-desc {
-      font-size: .76rem; color: var(--text-secondary);
-      line-height: 1.55; margin-bottom: .75rem;
-    }
-    .pipeline-value {
-      font-size: .72rem; color: var(--accent-cyan);
-      font-weight: 600;
-    }
 
     /* ============================================================
        SOBRE MÍ SECTION
@@ -1091,7 +1042,6 @@
       .projects-table-wrap { display: none; }
       .projects-cards { display: flex; }
 
-      .pipeline-track { border-radius: 0; border-left: none; border-right: none; }
 
       .section-heading { font-size: 1.3rem; }
     }
@@ -1114,7 +1064,6 @@
     .metric-label, .metric-desc,
     .projects-table th, .projects-table td, .table-stack,
     .stack-badge, .stack-badge-level, .stack-group-title,
-    .pipeline-desc, .pipeline-value,
     .about-location, .about-bio-text, .about-building-title,
     .timeline-date, .timeline-text,
     .form-field label, .form-field input, .form-field textarea,
@@ -1132,7 +1081,6 @@
     .metric-value,
     .overview-title, .overview-role, .overview-headline,
     .section-heading,
-    .pipeline-num, .pipeline-name,
     .about-name, .about-alias,
     .login-title, .login-logo-name,
     .topbar-breadcrumb strong,
@@ -1253,12 +1201,6 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
           </span>
           Stack
-        </li>
-        <li class="nav-item" data-section="pipeline">
-          <span class="nav-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="4" height="18" rx="1"/><rect x="10" y="8" width="4" height="13" rx="1"/><rect x="17" y="5" width="4" height="16" rx="1"/></svg>
-          </span>
-          Pipeline
         </li>
         <li class="nav-item" data-section="sobre-mi">
           <span class="nav-icon">
@@ -1433,16 +1375,6 @@
         <div class="stack-grid" id="stack-grid"></div>
       </section>
 
-      <!-- =========================================================
-           PIPELINE
-      ========================================================= -->
-      <section id="pipeline" class="dash-section">
-        <div class="section-eyebrow">Módulo 04</div>
-        <h2 class="section-heading">Pipeline personal</h2>
-        <p class="section-sub">Así convierto una idea o problema en una herramienta funcional.</p>
-
-        <div class="pipeline-track" id="pipeline-track"></div>
-      </section>
 
       <!-- =========================================================
            SOBRE MÍ
@@ -1595,10 +1527,6 @@
       <button class="mobile-nav-btn" data-section="stack">
         <span class="mnav-icon">&lt;/&gt;</span>
         <span>Stack</span>
-      </button>
-      <button class="mobile-nav-btn" data-section="pipeline">
-        <span class="mnav-icon">▷</span>
-        <span>Pipeline</span>
       </button>
       <button class="mobile-nav-btn" data-section="inbox">
         <span class="mnav-icon">✉</span>
@@ -2069,6 +1997,7 @@ const STACK_DATA = {
     { name: 'Mailchimp',      level: 'Proyecto real' },
     { name: 'Brevo',          level: 'Proyecto real' },
     { name: 'Automatizaciones', level: 'Uso frecuente' },
+    { name: 'n8n',              level: 'Uso frecuente' },
     { name: 'IA / Agentes',   level: 'Proyecto real' }
   ],
   'Marketing / Analítica': [
@@ -2095,27 +2024,6 @@ const STACK_DATA = {
   ]
 };
 
-/* ────────────────────────────────────────────
-   DATA — Pipeline stages
-──────────────────────────────────────────── */
-const PIPELINE_STAGES = [
-  { num: '01', name: 'Diagnóstico',  desc: 'Entiendo el negocio, el problema real y lo que el sistema debe resolver antes de diseñar o programar.', value: 'Evita construir sin dirección.',
-    name_en: 'Diagnosis',    desc_en: 'I understand the business, the real problem and what the system must solve before designing or coding.', value_en: 'Prevents building without direction.' },
-  { num: '02', name: 'Arquitectura', desc: 'Defino módulos, flujos, datos, roles e integraciones para que el proyecto tenga estructura desde el inicio.', value: 'Da orden técnico y operativo.',
-    name_en: 'Architecture', desc_en: 'I define modules, flows, data, roles and integrations so the project has structure from the start.', value_en: 'Provides technical and operational order.' },
-  { num: '03', name: 'Diseño UI/UX', desc: 'Creo interfaces claras, usables y alineadas al objetivo del negocio.', value: 'Hace que la solución sea fácil de usar.',
-    name_en: 'UI/UX Design', desc_en: 'I create clear, usable interfaces aligned with the business objective.', value_en: 'Makes the solution easy to use.' },
-  { num: '04', name: 'Desarrollo',   desc: 'Construyo el sistema, sitio o plataforma con enfoque funcional y escalable.', value: 'Convierte la idea en una herramienta real.',
-    name_en: 'Development',  desc_en: 'I build the system, site or platform with a functional and scalable focus.', value_en: 'Turns the idea into a real tool.' },
-  { num: '05', name: 'Integraciones',desc: 'Conecto pagos, formularios, automatizaciones, APIs, email marketing y herramientas externas.', value: 'Evita que el proyecto sea una pieza aislada.',
-    name_en: 'Integrations', desc_en: 'I connect payments, forms, automations, APIs, email marketing and external tools.', value_en: 'Prevents the project from being an isolated piece.' },
-  { num: '06', name: 'Pruebas',      desc: 'Reviso flujos, responsividad, errores, rendimiento y experiencia del usuario.', value: 'Reduce fricción antes del lanzamiento.',
-    name_en: 'Testing',      desc_en: 'I review flows, responsiveness, errors, performance and user experience.', value_en: 'Reduces friction before launch.' },
-  { num: '07', name: 'Lanzamiento',  desc: 'Dejo el proyecto listo para publicarse, operar y medirse en contexto real.', value: 'Permite empezar a usarlo de inmediato.',
-    name_en: 'Launch',       desc_en: 'I leave the project ready to be published, operated and measured in real context.', value_en: 'Allows immediate use.' },
-  { num: '08', name: 'Optimización', desc: 'Mejoro con datos, feedback y nuevas necesidades del negocio.', value: 'Mantiene el sistema en evolución.',
-    name_en: 'Optimization', desc_en: 'I improve based on data, feedback and new business needs.', value_en: 'Keeps the system evolving.' }
-];
 
 /* ────────────────────────────────────────────
    DATA — Activity timeline
@@ -2237,7 +2145,6 @@ function showDashboard() {
 function initDashboard() {
   if (currentLang !== 'es') setLang(currentLang);
   renderStack();
-  renderPipeline();
   renderTimeline();
   renderProjects(PROJECT_DATA);
   initNavigation();
@@ -2295,7 +2202,7 @@ function setActiveNav(id) {
   if (crumb) {
     const labels = {
       overview: t('crumb.overview'), proyectos: t('crumb.proyectos'),
-      stack: t('crumb.stack'), pipeline: t('crumb.pipeline'),
+      stack: t('crumb.stack'),
       'sobre-mi': t('crumb.sobre-mi'), actividad: t('crumb.actividad'),
       inbox: t('crumb.inbox'),
     };
@@ -2562,23 +2469,6 @@ function renderStack() {
   `).join('');
 }
 
-/* ────────────────────────────────────────────
-   PIPELINE RENDER
-──────────────────────────────────────────── */
-function renderPipeline() {
-  const track = $('#pipeline-track');
-  if (!track) return;
-
-  const isEN = currentLang === 'en';
-  track.innerHTML = PIPELINE_STAGES.map(s => `
-    <div class="pipeline-stage">
-      <div class="pipeline-num">${t('pipeline.stage')} ${s.num}</div>
-      <div class="pipeline-name">${isEN ? s.name_en : s.name}</div>
-      <div class="pipeline-desc">${isEN ? s.desc_en : s.desc}</div>
-      <div class="pipeline-value">${isEN ? s.value_en : s.value}</div>
-    </div>
-  `).join('');
-}
 
 /* ────────────────────────────────────────────
    TIMELINE RENDER
@@ -2809,10 +2699,6 @@ const UI = {
     'stack.eyebrow':         'Módulo 03',
     'stack.heading':         'Stack',
     'stack.sub':             'No solo aprendido: aplicado en proyectos reales.',
-    'pipeline.eyebrow':      'Módulo 04',
-    'pipeline.heading':      'Pipeline personal',
-    'pipeline.sub':          'Así convierto una idea o problema en una herramienta funcional.',
-    'pipeline.stage':        'Etapa',
     'about.eyebrow':         'Módulo 05',
     'about.heading':         'Sobre mí',
     'about.sub':             'La persona detrás del portafolio.',
@@ -2854,7 +2740,6 @@ const UI = {
     'crumb.overview':        'Overview',
     'crumb.proyectos':       'Proyectos',
     'crumb.stack':           'Stack',
-    'crumb.pipeline':        'Pipeline',
     'crumb.sobre-mi':        'Sobre mí',
     'crumb.actividad':       'Actividad',
     'crumb.inbox':           'Inbox',
@@ -2919,10 +2804,6 @@ const UI = {
     'stack.eyebrow':         'Module 03',
     'stack.heading':         'Stack',
     'stack.sub':             'Not just learned: applied in real projects.',
-    'pipeline.eyebrow':      'Module 04',
-    'pipeline.heading':      'Personal pipeline',
-    'pipeline.sub':          'How I turn an idea or problem into a functional tool.',
-    'pipeline.stage':        'Stage',
     'about.eyebrow':         'Module 05',
     'about.heading':         'About me',
     'about.sub':             'The person behind the portfolio.',
@@ -2964,7 +2845,6 @@ const UI = {
     'crumb.overview':        'Overview',
     'crumb.proyectos':       'Projects',
     'crumb.stack':           'Stack',
-    'crumb.pipeline':        'Pipeline',
     'crumb.sobre-mi':        'About me',
     'crumb.actividad':       'Activity',
     'crumb.inbox':           'Inbox',
@@ -3073,11 +2953,6 @@ function setLang(lang) {
   setText('#stack .section-heading', t('stack.heading'));
   setText('#stack .section-sub',     t('stack.sub'));
 
-  /* — pipeline section — */
-  setText('#pipeline .section-eyebrow', t('pipeline.eyebrow'));
-  setText('#pipeline .section-heading', t('pipeline.heading'));
-  setText('#pipeline .section-sub',     t('pipeline.sub'));
-
   /* — sobre mí — */
   setText('#sobre-mi .section-eyebrow', t('about.eyebrow'));
   setText('#sobre-mi .section-heading', t('about.heading'));
@@ -3135,7 +3010,6 @@ function setLang(lang) {
   setMobileNavText('overview', t('crumb.overview'));
   setMobileNavText('proyectos', t('nav.proyectos'));
   setMobileNavText('stack',     t('crumb.stack'));
-  setMobileNavText('pipeline',  t('crumb.pipeline'));
   setMobileNavText('inbox',     t('crumb.inbox'));
 
   /* — breadcrumb prefix + label — */
@@ -3144,7 +3018,6 @@ function setLang(lang) {
 
   /* — re-render dynamic sections — */
   renderStack();
-  renderPipeline();
   renderTimeline();
   filterProjects();
 
@@ -3179,7 +3052,7 @@ function updateBreadcrumb() {
   if (!crumb) return;
   const map = {
     overview: t('crumb.overview'), proyectos: t('crumb.proyectos'),
-    stack: t('crumb.stack'), pipeline: t('crumb.pipeline'),
+    stack: t('crumb.stack'),
     'sobre-mi': t('crumb.sobre-mi'), actividad: t('crumb.actividad'),
     inbox: t('crumb.inbox'),
   };
