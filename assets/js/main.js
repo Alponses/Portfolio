@@ -1159,7 +1159,7 @@ const UI = {
     'activity.sub':          'En qué he estado trabajando últimamente.',
     'inbox.eyebrow':         'Módulo 07',
     'inbox.heading':         'Contacto',
-    'inbox.sub':             '¿Tienes un proyecto web, tienda o integración que necesitas desarrollar?',
+    'inbox.sub':             '¿Quieres saber más sobre mi perfil o tienes una oportunidad? Escríbeme.',
     'inbox.title':           'Escríbeme',
     'inbox.desc':            'Cuéntame tu proyecto y te respondo en menos de 24 horas.',
     'inbox.name.label':      'Nombre',
@@ -1176,6 +1176,8 @@ const UI = {
     'inbox.side.status':     'Estado del inbox',
     'inbox.side.badge':      'Inbox abierto',
     'inbox.side.note':       'Respondo en menos de 24 horas.',
+    'inbox.cv.title':        'Descargar CV',
+    'inbox.cv.btn':          'CV Español',
     'modal.type':            'Tipo',
     'modal.role':            'Rol',
     'modal.site':            'Visitar sitio',
@@ -1264,7 +1266,7 @@ const UI = {
     'activity.sub':          "What I've been working on lately.",
     'inbox.eyebrow':         'Module 07',
     'inbox.heading':         'Contact',
-    'inbox.sub':             'Do you have a web project, store or integration you need built?',
+    'inbox.sub':             'Interested in my profile or have an opportunity? Write to me.',
     'inbox.title':           'Write to me',
     'inbox.desc':            "Tell me about your project and I'll get back to you within 24 hours.",
     'inbox.name.label':      'Name',
@@ -1281,6 +1283,8 @@ const UI = {
     'inbox.side.status':     'Inbox status',
     'inbox.side.badge':      'Inbox open',
     'inbox.side.note':       'I reply within 24 hours.',
+    'inbox.cv.title':        'Download CV',
+    'inbox.cv.btn':          'CV English',
     'modal.type':            'Type',
     'modal.role':            'Role',
     'modal.site':            'Visit site',
@@ -1431,7 +1435,19 @@ function setLang(lang) {
   if (successBadge) successBadge.textContent = t('inbox.success.badge');
   const sideTitles = $$('.inbox-side-title');
   if (sideTitles[0]) sideTitles[0].textContent = t('inbox.side.direct');
-  if (sideTitles[1]) sideTitles[1].textContent = t('inbox.side.status');
+  if (sideTitles[1]) sideTitles[1].textContent = t('inbox.cv.title');
+  if (sideTitles[2]) sideTitles[2].textContent = t('inbox.side.status');
+  const cvCard = $$('.inbox-side-card')[1];
+  if (cvCard) {
+    const cvLinks = cvCard.querySelectorAll('a');
+    const isEN = currentLang === 'en';
+    if (cvLinks[0]) {
+      cvLinks[0].href = isEN ? 'assets/docs/CV_Alfonso_Gabriel_Munoz_Chichia_en.pdf' : 'assets/docs/CV_Alfonso_Gabriel_Munoz_Chichia_es.pdf';
+      const textNode = [...cvLinks[0].childNodes].find(n => n.nodeType === 3 && n.textContent.trim());
+      if (textNode) textNode.textContent = ' ' + t('inbox.cv.btn') + ' ';
+    }
+    if (cvLinks[1]) cvLinks[1].style.display = 'none';
+  }
   const inboxProjBtn = $$('.btn-contact')[2];
   if (inboxProjBtn) {
     for (let i = inboxProjBtn.childNodes.length - 1; i >= 0; i--) {
