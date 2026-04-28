@@ -1,0 +1,2266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gabo Workspace — Gabriel Muñoz</title>
+  <meta name="description" content="Workspace de Gabo — Desarrollador web, CRM Builder y creador de sistemas digitales.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+    /* ============================================================
+       VARIABLES & RESET
+    ============================================================ */
+    :root {
+      --bg-main: #080A10;
+      --bg-soft: #0B0E16;
+      --sidebar-bg: rgba(8, 10, 16, 0.92);
+      --panel: #10131C;
+      --card: #151925;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.14);
+      --text-primary: #F5F7FA;
+      --text-secondary: #9BA3AF;
+      --accent: #8B5CF6;
+      --accent-dim: rgba(139, 92, 246, 0.15);
+      --accent-cyan: #22D3EE;
+      --accent-warm: #F59E0B;
+      --green: #10B981;
+      --orange: #F97316;
+      --muted: #64748B;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+      --transition: 160ms ease;
+      --sidebar-w: 240px;
+      --font-ui: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-ui);
+      background: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, h5 { font-family: var(--font-display); line-height: 1.25; }
+
+    a { color: inherit; text-decoration: none; }
+
+    input, button, textarea { font-family: inherit; }
+
+    button { cursor: pointer; border: none; background: none; }
+
+    /* ============================================================
+       LOGIN SCREEN
+    ============================================================ */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-main);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* glow blobs — mismos colores de acento del dashboard */
+    #login-screen::before,
+    #login-screen::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(110px);
+      pointer-events: none;
+    }
+    #login-screen::before {
+      width: 520px; height: 520px;
+      background: rgba(139, 92, 246, 0.18);
+      top: -140px; right: -80px;
+    }
+    #login-screen::after {
+      width: 420px; height: 420px;
+      background: rgba(34, 211, 238, 0.10);
+      bottom: -120px; left: -60px;
+    }
+
+    /* dot grid — igual que el sidebar del dashboard */
+    .login-dots {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    /* topbar visual — da continuidad con el dashboard */
+    .login-topbar {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 52px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-soft);
+      display: flex; align-items: center; padding: 0 1.75rem;
+      gap: .65rem; z-index: 3;
+    }
+    .login-topbar-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+    }
+    .login-topbar-label {
+      font-size: .75rem; font-weight: 600;
+      color: var(--text-secondary); letter-spacing: .04em;
+    }
+    .login-topbar-badge {
+      margin-left: auto;
+      font-size: .7rem; font-weight: 600;
+      padding: .25rem .6rem; border-radius: 999px;
+      background: var(--accent-dim);
+      color: #C4B5FD;
+      border: 1px solid rgba(139,92,246,.25);
+    }
+
+    .login-card {
+      position: relative; z-index: 2;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 2.25rem 2rem;
+      width: min(420px, 92vw);
+      box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 0 1px rgba(139,92,246,.08);
+    }
+
+    .login-logo {
+      display: flex; align-items: center; gap: .75rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .login-logo-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px; flex-shrink: 0;
+      background: linear-gradient(135deg, #8B5CF6, #22D3EE);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-display);
+      font-size: .9rem; font-weight: 700;
+      color: #fff;
+    }
+    .login-logo-name {
+      font-family: var(--font-display);
+      font-size: .95rem; font-weight: 700;
+      color: var(--text-primary); letter-spacing: .01em;
+    }
+    .login-logo-sub {
+      font-size: .7rem; color: var(--muted); margin-top: .1rem;
+    }
+
+    .login-title {
+      font-size: 1.35rem; font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: .3rem;
+    }
+    .login-subtitle {
+      font-size: .85rem; color: var(--text-secondary);
+      margin-bottom: 1.65rem; line-height: 1.6;
+    }
+
+    .login-field { margin-bottom: 1rem; }
+    .login-field label {
+      display: block; font-size: .78rem; font-weight: 500;
+      color: var(--text-secondary); margin-bottom: .4rem;
+    }
+    .login-input-wrap { position: relative; }
+    .login-input-wrap input {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .68rem 2.4rem .68rem .85rem;
+      color: var(--text-primary); font-size: .875rem;
+      transition: border-color var(--transition);
+      outline: none;
+    }
+    .login-input-wrap input::placeholder { color: var(--muted); }
+    .login-input-wrap input:focus { border-color: rgba(139,92,246,.5); box-shadow: 0 0 0 3px rgba(139,92,246,.1); }
+    .login-input-wrap input.error { border-color: var(--orange); }
+
+    .toggle-pw {
+      position: absolute; right: .7rem; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted); padding: .2rem;
+      transition: color var(--transition);
+    }
+    .toggle-pw:hover { color: var(--text-secondary); }
+
+    .login-forgot {
+      text-align: right; margin-bottom: 1.25rem;
+    }
+    .login-forgot a {
+      font-size: .78rem; color: var(--accent);
+      transition: opacity var(--transition);
+    }
+    .login-forgot a:hover { opacity: .75; }
+
+    .login-error {
+      background: rgba(249,115,22,.1);
+      border: 1px solid rgba(249,115,22,.3);
+      border-radius: var(--radius-sm);
+      padding: .6rem .85rem;
+      font-size: .8rem; color: #FED7AA;
+      margin-bottom: 1rem; display: none;
+    }
+    .login-error.show { display: block; }
+
+    .btn-login {
+      width: 100%;
+      background: var(--accent);
+      color: #fff; font-size: .9rem; font-weight: 600;
+      padding: .75rem;
+      border-radius: var(--radius-sm);
+      transition: opacity var(--transition), transform var(--transition);
+      box-shadow: 0 4px 20px rgba(139,92,246,.35);
+      letter-spacing: .01em;
+    }
+    .btn-login:hover { opacity: .88; transform: translateY(-1px); }
+    .btn-login:active { transform: translateY(0); opacity: 1; }
+
+    .login-loader {
+      display: none; flex-direction: column;
+      align-items: center; gap: .7rem;
+      padding: 1.1rem 0 .4rem;
+    }
+    .login-loader.show { display: flex; }
+    .loader-dots { display: flex; gap: .4rem; }
+    .loader-dots span {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent);
+      animation: ldot 1.2s ease-in-out infinite;
+    }
+    .loader-dots span:nth-child(2) { animation-delay: .2s; }
+    .loader-dots span:nth-child(3) { animation-delay: .4s; }
+    @keyframes ldot {
+      0%, 80%, 100% { transform: scale(.65); opacity: .4; }
+      40% { transform: scale(1.1); opacity: 1; }
+    }
+    .loader-step {
+      font-size: .82rem; color: var(--text-secondary); font-weight: 500;
+    }
+
+    .login-footer {
+      text-align: center; margin-top: 1.4rem;
+      font-size: .72rem; color: var(--muted);
+      padding-top: 1.1rem; border-top: 1px solid var(--border);
+    }
+
+    /* ============================================================
+       DASHBOARD LAYOUT
+    ============================================================ */
+    #dashboard {
+      display: none;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #dashboard.visible {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      grid-template-rows: 1fr;
+      animation: fadeIn .4s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ============================================================
+       SIDEBAR
+    ============================================================ */
+    #sidebar {
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      height: 100vh; overflow-y: auto;
+      position: sticky; top: 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    .sidebar-header {
+      padding: 1.25rem 1rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-brand {
+      display: flex; align-items: center; gap: .65rem;
+    }
+    .sidebar-avatar {
+      width: 36px; height: 36px; border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #8B5CF6, #22D3EE);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: .8rem; font-weight: 700; color: #fff;
+      flex-shrink: 0;
+    }
+    .sidebar-name {
+      font-family: var(--font-display);
+      font-size: .88rem; font-weight: 700;
+      color: var(--text-primary);
+    }
+    .sidebar-status {
+      font-size: .72rem; color: var(--green);
+      display: flex; align-items: center; gap: .3rem; margin-top: .15rem;
+    }
+    .sidebar-status::before {
+      content: ''; display: inline-block;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    .sidebar-nav {
+      flex: 1; padding: .75rem .6rem;
+    }
+    .sidebar-nav ul { list-style: none; display: flex; flex-direction: column; gap: .15rem; }
+
+    .nav-item {
+      display: flex; align-items: center; gap: .65rem;
+      padding: .58rem .85rem;
+      border-radius: var(--radius-sm);
+      font-size: .875rem; font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+      border: 1px solid transparent;
+    }
+    .nav-item:hover { background: rgba(255,255,255,.05); color: var(--text-primary); }
+    .nav-item.active {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-color: rgba(139,92,246,.25);
+    }
+    .nav-icon { width: 16px; text-align: center; flex-shrink: 0; opacity: .8; font-size: .95rem; }
+
+    .sidebar-footer {
+      padding: .85rem 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .sidebar-foot-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .65rem .8rem;
+    }
+    .sidebar-foot-label {
+      font-size: .7rem; color: var(--muted); margin-bottom: .15rem;
+    }
+    .sidebar-foot-val {
+      font-size: .78rem; color: var(--text-secondary); font-weight: 500;
+    }
+
+    /* ============================================================
+       MAIN WRAPPER + TOPBAR
+    ============================================================ */
+    #main-wrapper {
+      display: flex; flex-direction: column;
+      height: 100vh; overflow: hidden;
+    }
+
+    #topbar {
+      height: 56px; flex-shrink: 0;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 1.75rem;
+      gap: 1rem;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 1rem; }
+    .hamburger {
+      display: none;
+      flex-direction: column; gap: 4px; padding: .35rem;
+      cursor: pointer;
+    }
+    .hamburger span {
+      display: block; width: 18px; height: 2px;
+      background: var(--text-secondary);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    .topbar-breadcrumb {
+      font-size: .8rem; color: var(--text-secondary);
+    }
+    .topbar-breadcrumb strong { color: var(--text-primary); font-weight: 600; }
+
+    .topbar-search {
+      flex: 1; max-width: 340px;
+      position: relative;
+    }
+    .topbar-search input {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .45rem .85rem .45rem 2.1rem;
+      font-size: .82rem; color: var(--text-primary);
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .topbar-search input::placeholder { color: var(--muted); }
+    .topbar-search input:focus { border-color: rgba(139,92,246,.4); }
+    .topbar-search-icon {
+      position: absolute; left: .65rem; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted); font-size: .8rem; pointer-events: none;
+    }
+
+    .topbar-right { display: flex; align-items: center; gap: .75rem; }
+    .topbar-badge {
+      font-size: .72rem; font-weight: 600;
+      padding: .3rem .65rem;
+      border-radius: 999px;
+      background: rgba(16,185,129,.12);
+      color: var(--green);
+      border: 1px solid rgba(16,185,129,.25);
+      white-space: nowrap;
+    }
+    .btn-cta {
+      background: var(--accent);
+      color: #fff; font-size: .82rem; font-weight: 600;
+      padding: .42rem .95rem; border-radius: var(--radius-sm);
+      transition: opacity var(--transition);
+      white-space: nowrap;
+    }
+    .btn-cta:hover { opacity: .85; }
+
+    /* ============================================================
+       CONTENT AREA — SPA: una sección a la vez
+    ============================================================ */
+    #content {
+      flex: 1; overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    /* sections: ocultas por defecto, visibles cuando están activas */
+    .dash-section {
+      display: none;
+      padding: 2rem 2.25rem 3rem;
+      min-height: calc(100vh - 56px);
+      opacity: 0;
+    }
+    .dash-section.s-visible {
+      display: block;
+      animation: sectionIn 0.22s ease forwards;
+    }
+    @keyframes sectionIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-eyebrow {
+      font-size: .72rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: .5rem;
+    }
+    .section-heading {
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: .4rem;
+    }
+    .section-sub {
+      font-size: .9rem; color: var(--text-secondary);
+      margin-bottom: 2rem; max-width: 600px;
+    }
+
+    /* ============================================================
+       SHARED COMPONENTS
+    ============================================================ */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .card:hover { border-color: var(--border-hover); box-shadow: 0 4px 24px rgba(0,0,0,.25); }
+
+    .badge {
+      display: inline-flex; align-items: center;
+      font-size: .72rem; font-weight: 600;
+      padding: .28rem .65rem; border-radius: 999px;
+      letter-spacing: .015em;
+    }
+    .badge-purple { background: rgba(139,92,246,.15); color: #C4B5FD; border: 1px solid rgba(139,92,246,.25); }
+    .badge-cyan   { background: rgba(34,211,238,.12); color: #67E8F9; border: 1px solid rgba(34,211,238,.2); }
+    .badge-green  { background: rgba(16,185,129,.12); color: #6EE7B7; border: 1px solid rgba(16,185,129,.2); }
+    .badge-orange { background: rgba(249,115,22,.12); color: #FED7AA; border: 1px solid rgba(249,115,22,.2); }
+    .badge-warm   { background: rgba(245,158,11,.12); color: #FDE68A; border: 1px solid rgba(245,158,11,.2); }
+    .badge-muted  { background: rgba(100,116,139,.14); color: var(--text-secondary); border: 1px solid rgba(100,116,139,.2); }
+    .badge-dot::before {
+      content: ''; display: inline-block;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: currentColor; margin-right: .35rem;
+    }
+
+    /* ============================================================
+       OVERVIEW SECTION
+    ============================================================ */
+    .overview-hero {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 1.75rem;
+      align-items: start;
+      margin-bottom: 1.75rem;
+    }
+    .overview-badges { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+
+    .overview-title {
+      font-size: 2.1rem; font-weight: 700; line-height: 1.15;
+      margin-bottom: .4rem;
+      background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .overview-role {
+      font-size: .85rem; color: var(--accent); font-weight: 600;
+      letter-spacing: .04em; text-transform: uppercase;
+      margin-bottom: .9rem;
+    }
+    .overview-headline {
+      font-size: 1.25rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: .65rem;
+      font-family: var(--font-display);
+    }
+    .overview-desc {
+      font-size: .9rem; color: var(--text-secondary);
+      max-width: 520px; margin-bottom: 1.5rem; line-height: 1.7;
+    }
+    .overview-btns { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff; font-size: .875rem; font-weight: 600;
+      padding: .6rem 1.25rem; border-radius: var(--radius-sm);
+      transition: opacity var(--transition), transform var(--transition);
+      box-shadow: 0 4px 16px rgba(139,92,246,.3);
+    }
+    .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary); font-size: .875rem; font-weight: 600;
+      padding: .6rem 1.25rem; border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      transition: border-color var(--transition), background var(--transition);
+    }
+    .btn-outline:hover { border-color: var(--border-hover); background: rgba(255,255,255,.04); }
+
+    /* lead status card */
+    .lead-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.2rem;
+    }
+    .lead-card-title {
+      font-size: .72rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 1rem;
+    }
+    .lead-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .45rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .8rem;
+    }
+    .lead-row:last-child { border-bottom: none; }
+    .lead-label { color: var(--text-secondary); }
+    .lead-val { color: var(--text-primary); font-weight: 500; text-align: right; max-width: 140px; }
+
+    /* metrics */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .metric-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .metric-card:hover { border-color: rgba(139,92,246,.3); box-shadow: 0 4px 24px rgba(139,92,246,.1); }
+    .metric-label {
+      font-size: .72rem; font-weight: 600; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: .5rem;
+    }
+    .metric-value {
+      font-family: var(--font-display);
+      font-size: 2rem; font-weight: 700;
+      color: var(--accent); line-height: 1; margin-bottom: .35rem;
+    }
+    .metric-desc {
+      font-size: .72rem; color: var(--text-secondary);
+    }
+
+    /* ============================================================
+       PROYECTOS SECTION
+    ============================================================ */
+    .projects-controls {
+      display: flex; align-items: center;
+      gap: 1rem; flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .project-search-wrap {
+      position: relative; flex: 1; min-width: 200px; max-width: 320px;
+    }
+    .project-search-wrap input {
+      width: 100%;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .5rem .85rem .5rem 2rem;
+      font-size: .84rem; color: var(--text-primary); outline: none;
+      transition: border-color var(--transition);
+    }
+    .project-search-wrap input:focus { border-color: rgba(139,92,246,.4); }
+    .project-search-wrap input::placeholder { color: var(--muted); }
+    .project-search-icon {
+      position: absolute; left: .65rem; top: 50%;
+      transform: translateY(-50%); color: var(--muted); font-size: .75rem;
+    }
+
+    .filter-pills {
+      display: flex; gap: .4rem; flex-wrap: wrap;
+    }
+    .filter-pill {
+      font-size: .75rem; font-weight: 600;
+      padding: .32rem .7rem; border-radius: 999px;
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .filter-pill:hover { border-color: rgba(139,92,246,.3); color: var(--text-primary); }
+    .filter-pill.active { background: var(--accent-dim); border-color: rgba(139,92,246,.4); color: var(--accent); }
+
+    /* table */
+    .projects-table-wrap { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--border); }
+    .projects-table {
+      width: 100%; border-collapse: collapse;
+      font-size: .85rem;
+    }
+    .projects-table thead th {
+      background: var(--panel);
+      padding: .75rem 1rem; text-align: left;
+      font-size: .72rem; font-weight: 600; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .projects-table tbody tr {
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .projects-table tbody tr:last-child { border-bottom: none; }
+    .projects-table tbody tr:hover { background: rgba(255,255,255,.03); }
+    .projects-table td {
+      padding: .85rem 1rem; color: var(--text-secondary);
+      vertical-align: middle;
+    }
+    .projects-table td:first-child { color: var(--text-primary); font-weight: 600; }
+    .table-stack { font-size: .75rem; color: var(--muted); margin-top: .2rem; }
+
+    /* project cards (mobile fallback) */
+    .projects-cards { display: none; flex-direction: column; gap: .85rem; }
+    .project-card-item {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.1rem;
+      cursor: pointer; transition: border-color var(--transition);
+    }
+    .project-card-item:hover { border-color: rgba(139,92,246,.35); }
+    .project-card-name { font-weight: 600; font-size: .95rem; margin-bottom: .4rem; }
+    .project-card-meta { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .5rem; }
+    .project-card-desc { font-size: .82rem; color: var(--text-secondary); }
+
+    /* ============================================================
+       STACK SECTION
+    ============================================================ */
+    .stack-grid { display: flex; flex-direction: column; gap: 1.75rem; }
+    .stack-group-title {
+      font-size: .72rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: .8rem;
+    }
+    .stack-badges { display: flex; flex-wrap: wrap; gap: .55rem; }
+    .stack-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .45rem .9rem; font-size: .82rem;
+      color: var(--text-secondary); font-weight: 500;
+      cursor: default;
+      transition: border-color var(--transition), color var(--transition), box-shadow var(--transition);
+    }
+    .stack-badge:hover {
+      border-color: rgba(139,92,246,.4);
+      color: var(--text-primary);
+      box-shadow: 0 0 10px rgba(139,92,246,.15);
+    }
+    .stack-badge-level {
+      font-size: .66rem; color: var(--muted); padding: .15rem .4rem;
+      background: rgba(255,255,255,.05); border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       PIPELINE SECTION
+    ============================================================ */
+    .pipeline-track {
+      display: flex; gap: 0;
+      overflow-x: auto;
+      padding-bottom: .5rem;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .pipeline-stage {
+      min-width: 170px; flex-shrink: 0;
+      padding: 1.25rem 1rem;
+      border-right: 1px solid var(--border);
+      scroll-snap-align: start;
+      transition: background var(--transition);
+      position: relative;
+    }
+    .pipeline-stage:last-child { border-right: none; }
+    .pipeline-stage::after {
+      content: '›';
+      position: absolute; right: -10px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted); font-size: 1.2rem;
+      z-index: 2; pointer-events: none;
+    }
+    .pipeline-stage:last-child::after { display: none; }
+    .pipeline-stage:hover { background: rgba(255,255,255,.03); }
+    .pipeline-num {
+      font-size: .68rem; font-weight: 600; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: .4rem;
+    }
+    .pipeline-name {
+      font-family: var(--font-display);
+      font-size: .9rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: .5rem;
+    }
+    .pipeline-desc {
+      font-size: .76rem; color: var(--text-secondary);
+      line-height: 1.55; margin-bottom: .75rem;
+    }
+    .pipeline-value {
+      font-size: .72rem; color: var(--accent-cyan);
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       SOBRE MÍ SECTION
+    ============================================================ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 1.75rem;
+      align-items: start;
+    }
+    .about-profile-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.5rem;
+      text-align: center;
+    }
+    .about-avatar {
+      width: 72px; height: 72px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #8B5CF6, #22D3EE);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.4rem; font-weight: 700; color: #fff;
+      margin: 0 auto 1rem;
+    }
+    .about-name {
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: .2rem;
+    }
+    .about-alias { font-size: .82rem; color: var(--accent); font-weight: 600; margin-bottom: .3rem; }
+    .about-location { font-size: .8rem; color: var(--text-secondary); margin-bottom: 1rem; }
+    .about-traits { display: flex; flex-wrap: wrap; gap: .4rem; justify-content: center; }
+
+    .about-main { display: flex; flex-direction: column; gap: 1.25rem; }
+    .about-bio {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.25rem;
+    }
+    .about-bio-text {
+      font-size: .9rem; color: var(--text-primary);
+      line-height: 1.75; margin-bottom: .75rem;
+    }
+    .about-bio-text:last-child { margin-bottom: 0; }
+    .about-building {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.25rem;
+    }
+    .about-building-title {
+      font-size: .72rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: .85rem;
+    }
+    .building-items { display: flex; flex-wrap: wrap; gap: .45rem; }
+
+    /* ============================================================
+       ACTIVIDAD SECTION
+    ============================================================ */
+    .timeline {
+      position: relative; padding-left: 1.75rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 7px; top: 8px; bottom: 0;
+      width: 2px; background: var(--border);
+    }
+    .timeline-item {
+      position: relative; padding-bottom: 1.75rem;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      position: absolute; left: -1.75rem; top: 4px;
+      width: 16px; height: 16px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--panel); border: 2px solid var(--border);
+      font-size: .55rem;
+    }
+    .timeline-dot.purple { border-color: var(--accent); background: rgba(139,92,246,.15); }
+    .timeline-dot.cyan   { border-color: var(--accent-cyan); background: rgba(34,211,238,.12); }
+    .timeline-dot.green  { border-color: var(--green); background: rgba(16,185,129,.12); }
+    .timeline-dot.orange { border-color: var(--orange); background: rgba(249,115,22,.12); }
+    .timeline-dot.warm   { border-color: var(--accent-warm); background: rgba(245,158,11,.12); }
+
+    .timeline-meta {
+      display: flex; align-items: center; gap: .6rem;
+      margin-bottom: .3rem; flex-wrap: wrap;
+    }
+    .timeline-date { font-size: .75rem; color: var(--muted); font-weight: 500; }
+    .timeline-text {
+      font-size: .88rem; color: var(--text-primary);
+      font-weight: 500; line-height: 1.55;
+    }
+
+    /* ============================================================
+       INBOX SECTION
+    ============================================================ */
+    .inbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 1.75rem;
+      align-items: start;
+    }
+    .inbox-form-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.5rem;
+    }
+    .inbox-title { font-size: 1.15rem; font-weight: 700; margin-bottom: .4rem; }
+    .inbox-desc { font-size: .88rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.65; }
+    .form-field { margin-bottom: 1rem; }
+    .form-field label {
+      display: block; font-size: .8rem; font-weight: 500;
+      color: var(--text-secondary); margin-bottom: .4rem;
+    }
+    .form-field input,
+    .form-field textarea {
+      width: 100%;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .65rem .85rem;
+      color: var(--text-primary); font-size: .875rem;
+      outline: none; resize: none;
+      transition: border-color var(--transition);
+    }
+    .form-field input:focus,
+    .form-field textarea:focus { border-color: rgba(139,92,246,.45); }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder { color: var(--muted); }
+    .form-field textarea { height: 110px; }
+
+    .btn-send {
+      width: 100%;
+      background: var(--accent);
+      color: #fff; font-size: .9rem; font-weight: 600;
+      padding: .72rem; border-radius: var(--radius-sm);
+      transition: opacity var(--transition);
+      box-shadow: 0 4px 16px rgba(139,92,246,.3);
+    }
+    .btn-send:hover { opacity: .88; }
+
+    .inbox-success {
+      display: none;
+      flex-direction: column; align-items: center;
+      text-align: center; padding: 2rem 1rem;
+      gap: .75rem;
+    }
+    .inbox-success.show { display: flex; }
+    .inbox-success-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(16,185,129,.15);
+      border: 2px solid var(--green);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: var(--green);
+    }
+    .inbox-success-title { font-size: 1.05rem; font-weight: 700; }
+    .inbox-success-desc { font-size: .85rem; color: var(--text-secondary); line-height: 1.65; }
+
+    .inbox-sidebar { display: flex; flex-direction: column; gap: 1rem; }
+    .inbox-side-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.1rem;
+    }
+    .inbox-side-title {
+      font-size: .7rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: .85rem;
+    }
+    .inbox-contact-btns { display: flex; flex-direction: column; gap: .55rem; }
+    .btn-contact {
+      display: flex; align-items: center; gap: .65rem;
+      padding: .6rem .9rem;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: .84rem; color: var(--text-secondary);
+      transition: all var(--transition); cursor: pointer;
+    }
+    .btn-contact:hover { border-color: rgba(139,92,246,.35); color: var(--text-primary); background: rgba(255,255,255,.04); }
+    .btn-contact-icon { font-size: 1rem; }
+
+    /* ============================================================
+       MODAL
+    ============================================================ */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, .75);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200; padding: 1rem;
+      opacity: 1; transition: opacity var(--transition);
+    }
+    .modal-overlay.hidden { display: none; }
+
+    .modal-card {
+      background: var(--panel);
+      border: 1px solid var(--border-hover);
+      border-radius: var(--radius-xl);
+      width: min(580px, 100%);
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 1.75rem;
+      position: relative;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+      animation: modalIn .2s ease;
+    }
+    @keyframes modalIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+    .modal-close {
+      position: absolute; top: 1.1rem; right: 1.1rem;
+      width: 30px; height: 30px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .modal-close:hover { background: rgba(255,255,255,.12); color: var(--text-primary); }
+
+    .modal-header { margin-bottom: 1.25rem; padding-right: 2rem; }
+    .modal-project-name { font-size: 1.4rem; font-weight: 700; margin-bottom: .5rem; }
+    .modal-badges { display: flex; gap: .45rem; flex-wrap: wrap; }
+
+    .modal-section { margin-bottom: 1.1rem; }
+    .modal-label {
+      font-size: .7rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: .35rem;
+    }
+    .modal-text {
+      font-size: .875rem; color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .modal-divider {
+      height: 1px; background: var(--border);
+      margin: 1.1rem 0;
+    }
+    .modal-stack-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .4rem; }
+    .modal-tag {
+      font-size: .75rem; padding: .22rem .6rem;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      border-radius: 999px; color: var(--text-secondary);
+    }
+
+    /* ============================================================
+       MOBILE NAV
+    ============================================================ */
+    #mobile-nav {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+      padding: .5rem .5rem calc(.5rem + env(safe-area-inset-bottom));
+      z-index: 100;
+    }
+    .mobile-nav-inner {
+      display: flex; justify-content: space-around;
+    }
+    .mobile-nav-btn {
+      display: flex; flex-direction: column; align-items: center;
+      gap: .2rem; padding: .35rem .5rem;
+      font-size: .62rem; color: var(--muted);
+      cursor: pointer; border-radius: var(--radius-sm);
+      transition: color var(--transition);
+      min-width: 44px;
+    }
+    .mobile-nav-btn .mnav-icon { font-size: 1.1rem; }
+    .mobile-nav-btn.active { color: var(--accent); }
+
+    /* sidebar overlay for mobile */
+    .sidebar-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.6);
+      z-index: 40;
+    }
+    .sidebar-overlay.show { display: block; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .overview-hero { grid-template-columns: 1fr; }
+      .lead-card { display: none; }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-grid { grid-template-columns: 1fr; }
+      .inbox-grid { grid-template-columns: 1fr; }
+      .inbox-sidebar { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      #dashboard.visible {
+        grid-template-columns: 1fr;
+      }
+      #sidebar {
+        position: fixed;
+        left: calc(-1 * var(--sidebar-w));
+        z-index: 50;
+        transition: left 220ms ease;
+      }
+      body.sidebar-open #sidebar { left: 0; }
+
+      #mobile-nav { display: block; }
+      .hamburger { display: flex; }
+      #content { padding: 1.25rem; padding-bottom: calc(80px + 1.25rem); }
+      #topbar { padding: 0 1rem; }
+      .topbar-search { display: none; }
+      .topbar-badge { display: none; }
+
+      .projects-table-wrap { display: none; }
+      .projects-cards { display: flex; }
+
+      .pipeline-track { border-radius: 0; border-left: none; border-right: none; }
+
+      .section-heading { font-size: 1.3rem; }
+    }
+
+    @media (max-width: 480px) {
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .overview-title { font-size: 1.6rem; }
+    }
+
+    /* ============================================================
+       EXPLICIT FONT ASSIGNMENTS — todos los elementos cubiertos
+    ============================================================ */
+
+    /* UI font — todos los textos de interfaz */
+    .nav-item, .sidebar-status, .sidebar-foot-label, .sidebar-foot-val,
+    .topbar-breadcrumb, .topbar-badge, .btn-cta,
+    .topbar-search input, .section-eyebrow,
+    .badge, .filter-pill,
+    .lead-card-title, .lead-label, .lead-val,
+    .metric-label, .metric-desc,
+    .projects-table th, .projects-table td, .table-stack,
+    .stack-badge, .stack-badge-level, .stack-group-title,
+    .pipeline-desc, .pipeline-value,
+    .about-location, .about-bio-text, .about-building-title,
+    .timeline-date, .timeline-text,
+    .form-field label, .form-field input, .form-field textarea,
+    .btn-send, .btn-login, .btn-primary, .btn-outline, .btn-contact,
+    .inbox-desc, .inbox-success-desc,
+    .modal-text, .modal-label, .modal-tag,
+    .login-subtitle, .login-footer, .login-field label,
+    .login-input-wrap input, .login-logo-sub, .login-topbar-label,
+    .login-topbar-badge, .loader-step,
+    .sidebar-foot-card, .mobile-nav-btn,
+    p, span, label, td, th, li { font-family: var(--font-ui); }
+
+    /* Display font — headings, números, nombres prominentes */
+    h1, h2, h3, h4, h5,
+    .metric-value,
+    .overview-title, .overview-role, .overview-headline,
+    .section-heading,
+    .pipeline-num, .pipeline-name,
+    .about-name, .about-alias,
+    .login-title, .login-logo-name,
+    .topbar-breadcrumb strong,
+    .inbox-title, .inbox-success-title,
+    .modal-project-name,
+    .sidebar-name, .sidebar-avatar,
+    .about-avatar,
+    .login-logo-icon { font-family: var(--font-display); }
+
+    /* ============================================================
+       ANIMATIONS — reduced motion respected
+    ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     LOGIN SCREEN
+============================================================ -->
+<div id="login-screen">
+  <div class="login-dots"></div>
+
+  <!-- topbar decorativa — misma línea visual del dashboard -->
+  <div class="login-topbar">
+    <span class="login-topbar-dot"></span>
+    <span class="login-topbar-label">Gabo Workspace</span>
+    <span class="login-topbar-badge">Sistema activo</span>
+  </div>
+
+  <div class="login-card" role="main">
+    <div class="login-logo">
+      <span class="login-logo-icon">GM</span>
+      <div>
+        <div class="login-logo-name">Gabo Workspace</div>
+        <div class="login-logo-sub">CRM · Web · Automatización</div>
+      </div>
+    </div>
+
+    <h1 class="login-title">Inicia sesión</h1>
+    <p class="login-subtitle">Accede al workspace de Gabo.</p>
+
+    <div id="login-error" class="login-error" role="alert" aria-live="polite"></div>
+
+    <form id="login-form" novalidate>
+      <div class="login-field">
+        <label for="login-email">Correo electrónico</label>
+        <div class="login-input-wrap">
+          <input type="email" id="login-email" placeholder="tu@correo.com" value="gabo@workspace.mx" autocomplete="email">
+        </div>
+      </div>
+      <div class="login-field">
+        <label for="login-password">Contraseña</label>
+        <div class="login-input-wrap">
+          <input type="password" id="login-password" placeholder="••••••••" value="gabo2026" autocomplete="current-password">
+          <button type="button" class="toggle-pw" id="toggle-pw-btn" aria-label="Mostrar contraseña">
+            <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg id="eye-off-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn-login" id="login-btn">Iniciar sesión</button>
+    </form>
+
+    <div class="login-loader" id="login-loader" aria-live="polite">
+      <div class="loader-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="loader-step" id="loader-step">Validando acceso…</span>
+    </div>
+
+    <p class="login-footer">© 2026 Gabo Workspace</p>
+  </div>
+</div>
+
+<!-- sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ============================================================
+     DASHBOARD
+============================================================ -->
+<div id="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" aria-label="Navegación principal">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="sidebar-avatar">GM</div>
+        <div>
+          <div class="sidebar-name">Gabo Workspace</div>
+          <div class="sidebar-status">Disponible para proyectos</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul>
+        <li class="nav-item active" data-section="overview">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </span>
+          Overview
+        </li>
+        <li class="nav-item" data-section="proyectos">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </span>
+          Proyectos
+        </li>
+        <li class="nav-item" data-section="stack">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </span>
+          Stack
+        </li>
+        <li class="nav-item" data-section="pipeline">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="4" height="18" rx="1"/><rect x="10" y="8" width="4" height="13" rx="1"/><rect x="17" y="5" width="4" height="16" rx="1"/></svg>
+          </span>
+          Pipeline
+        </li>
+        <li class="nav-item" data-section="sobre-mi">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          Sobre mí
+        </li>
+        <li class="nav-item" data-section="actividad">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </span>
+          Actividad
+        </li>
+        <li class="nav-item" data-section="inbox">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </span>
+          Inbox
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-foot-card">
+        <div class="sidebar-foot-label">Estado del sistema</div>
+        <div class="sidebar-foot-val">Creando algo mejor</div>
+        <div class="sidebar-foot-label" style="margin-top:.4rem">Última actualización</div>
+        <div class="sidebar-foot-val">Hoy</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div id="main-wrapper">
+
+    <!-- TOPBAR -->
+    <header id="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger-btn" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="topbar-breadcrumb">
+          Workspace / <strong id="breadcrumb-text">Overview</strong>
+        </div>
+      </div>
+      <div class="topbar-search">
+        <span class="topbar-search-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <input type="text" id="topbar-search" placeholder="Buscar proyectos, stack o procesos…" aria-label="Buscar">
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-badge">Workspace activo</span>
+        <button class="btn-cta" onclick="scrollToSection('inbox')">Hablemos</button>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main id="content">
+
+      <!-- =========================================================
+           OVERVIEW
+      ========================================================= -->
+      <section id="overview" class="dash-section">
+        <div class="overview-hero">
+          <div>
+            <div class="overview-badges">
+              <span class="badge badge-green badge-dot">Workspace activo</span>
+              <span class="badge badge-purple badge-dot">Disponible para nuevos proyectos</span>
+            </div>
+            <h1 class="overview-title">Gabriel Muñoz / Gabo</h1>
+            <div class="overview-role">Web Developer · CRM Builder · Automation Creator</div>
+            <p class="overview-headline">Construyo sistemas digitales que ayudan a vender, operar y crecer mejor.</p>
+            <p class="overview-desc">Diseño y desarrollo sitios web, CRMs, automatizaciones e integraciones para convertir ideas en herramientas reales de negocio.</p>
+            <div class="overview-btns">
+              <button class="btn-primary" onclick="scrollToSection('proyectos')">Ver proyectos</button>
+              <button class="btn-outline" onclick="scrollToSection('inbox')">Hablemos</button>
+            </div>
+          </div>
+
+          <div class="lead-card">
+            <div class="lead-card-title">Lead status</div>
+            <div class="lead-row">
+              <span class="lead-label">Visitante</span>
+              <span class="lead-val"><span class="badge badge-cyan">Nuevo</span></span>
+            </div>
+            <div class="lead-row">
+              <span class="lead-label">Estado</span>
+              <span class="lead-val">Listo para conversar</span>
+            </div>
+            <div class="lead-row">
+              <span class="lead-label">Interés</span>
+              <span class="lead-val">Sistemas · Web · CRM · Automatización</span>
+            </div>
+            <div class="lead-row">
+              <span class="lead-label">Acción</span>
+              <span class="lead-val"><button class="btn-primary" style="font-size:.75rem;padding:.35rem .75rem" onclick="scrollToSection('inbox')">Enviar mensaje</button></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- metrics -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">Proyectos</div>
+            <div class="metric-value" data-count="8" data-suffix="">08</div>
+            <div class="metric-desc">Sistema en evolución</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Herramientas</div>
+            <div class="metric-value" data-count="24" data-suffix="+">24+</div>
+            <div class="metric-desc">Stack en uso real</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Áreas</div>
+            <div class="metric-value" data-count="7" data-suffix="">07</div>
+            <div class="metric-desc">Modo construcción</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">En desarrollo</div>
+            <div class="metric-value" data-count="4" data-suffix="">04</div>
+            <div class="metric-desc">Última actualización: hoy</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           PROYECTOS
+      ========================================================= -->
+      <section id="proyectos" class="dash-section">
+        <div class="section-eyebrow">Módulo 02</div>
+        <h2 class="section-heading">Proyectos</h2>
+        <p class="section-sub">Casos, sistemas y productos que he construido o estoy desarrollando.</p>
+
+        <div class="projects-controls">
+          <div class="project-search-wrap">
+            <span class="project-search-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <input type="text" id="project-search" placeholder="Buscar proyecto…" aria-label="Buscar proyecto">
+          </div>
+          <div class="filter-pills" id="filter-pills">
+            <button class="filter-pill active" data-cat="Todos">Todos</button>
+            <button class="filter-pill" data-cat="CRM">CRM</button>
+            <button class="filter-pill" data-cat="Web">Web</button>
+            <button class="filter-pill" data-cat="E-commerce">E-commerce</button>
+            <button class="filter-pill" data-cat="Media">Media</button>
+            <button class="filter-pill" data-cat="SaaS">SaaS</button>
+            <button class="filter-pill" data-cat="Automatización">Automatización</button>
+          </div>
+        </div>
+
+        <!-- desktop table -->
+        <div class="projects-table-wrap">
+          <table class="projects-table" id="projects-table">
+            <thead>
+              <tr>
+                <th>Proyecto</th>
+                <th>Tipo</th>
+                <th>Estado</th>
+                <th>Stack</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="projects-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- mobile cards -->
+        <div class="projects-cards" id="projects-cards"></div>
+      </section>
+
+      <!-- =========================================================
+           STACK
+      ========================================================= -->
+      <section id="stack" class="dash-section">
+        <div class="section-eyebrow">Módulo 03</div>
+        <h2 class="section-heading">Stack</h2>
+        <p class="section-sub">No solo aprendido: aplicado en proyectos reales.</p>
+
+        <div class="stack-grid" id="stack-grid"></div>
+      </section>
+
+      <!-- =========================================================
+           PIPELINE
+      ========================================================= -->
+      <section id="pipeline" class="dash-section">
+        <div class="section-eyebrow">Módulo 04</div>
+        <h2 class="section-heading">Pipeline personal</h2>
+        <p class="section-sub">Así convierto una idea o problema en una herramienta funcional.</p>
+
+        <div class="pipeline-track" id="pipeline-track"></div>
+      </section>
+
+      <!-- =========================================================
+           SOBRE MÍ
+      ========================================================= -->
+      <section id="sobre-mi" class="dash-section">
+        <div class="section-eyebrow">Módulo 05</div>
+        <h2 class="section-heading">Sobre mí</h2>
+        <p class="section-sub">La persona detrás del workspace.</p>
+
+        <div class="about-grid">
+          <div class="about-profile-card">
+            <div class="about-avatar">GM</div>
+            <div class="about-name">Gabriel Muñoz</div>
+            <div class="about-alias">/ Gabo</div>
+            <div class="about-location">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;margin-right:3px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              México
+            </div>
+            <div class="about-traits">
+              <span class="badge badge-purple">Creativo</span>
+              <span class="badge badge-cyan">Técnico</span>
+              <span class="badge badge-green">Producto</span>
+              <span class="badge badge-warm">Negocio</span>
+              <span class="badge badge-muted">Aprendizaje continuo</span>
+              <span class="badge badge-orange">Ciberseguridad</span>
+            </div>
+          </div>
+
+          <div class="about-main">
+            <div class="about-bio">
+              <p class="about-bio-text">Soy Gabo. Me gusta construir cosas que sirvan. No solo páginas bonitas: herramientas que resuelven procesos, capturan clientes y ayudan a operar mejor.</p>
+              <p class="about-bio-text">He trabajado con sitios web, tiendas online, CRMs, plataformas internas, campañas, integraciones, contenido digital, automatizaciones y proyectos que mezclan diseño, código y operación.</p>
+              <p class="about-bio-text">Mi forma de trabajar combina criterio visual, desarrollo técnico y visión de negocio. Me interesa que lo que construyo no solo se vea bien, sino que tenga lógica, estructura y utilidad real.</p>
+            </div>
+            <div class="about-building">
+              <div class="about-building-title">Actualmente estoy construyendo</div>
+              <div class="building-items">
+                <span class="badge badge-purple">CRMs</span>
+                <span class="badge badge-cyan">Dashboards</span>
+                <span class="badge badge-green">Automatizaciones</span>
+                <span class="badge badge-muted">Sitios web comerciales</span>
+                <span class="badge badge-warm">APIs e integraciones</span>
+                <span class="badge badge-orange">Proyectos de ciberseguridad</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           ACTIVIDAD
+      ========================================================= -->
+      <section id="actividad" class="dash-section">
+        <div class="section-eyebrow">Módulo 06</div>
+        <h2 class="section-heading">Actividad reciente</h2>
+        <p class="section-sub">Un vistazo a lo que he estado construyendo, aprendiendo y conectando.</p>
+
+        <div class="timeline" id="timeline"></div>
+      </section>
+
+      <!-- =========================================================
+           INBOX
+      ========================================================= -->
+      <section id="inbox" class="dash-section">
+        <div class="section-eyebrow">Módulo 07</div>
+        <h2 class="section-heading">Inbox</h2>
+        <p class="section-sub">¿Tienes una idea, negocio o proceso que necesita convertirse en sistema?</p>
+
+        <div class="inbox-grid">
+          <div class="inbox-form-card">
+            <div id="inbox-form-wrap">
+              <h3 class="inbox-title">Escríbeme</h3>
+              <p class="inbox-desc">Mándame mensaje y vemos cómo convertirlo en una herramienta funcional.</p>
+              <form id="contact-form" novalidate>
+                <div class="form-field">
+                  <label for="cf-name">Nombre</label>
+                  <input type="text" id="cf-name" placeholder="Tu nombre">
+                </div>
+                <div class="form-field">
+                  <label for="cf-email">Correo electrónico</label>
+                  <input type="email" id="cf-email" placeholder="tu@correo.com">
+                </div>
+                <div class="form-field">
+                  <label for="cf-msg">Mensaje</label>
+                  <textarea id="cf-msg" placeholder="Cuéntame sobre tu proyecto o idea…"></textarea>
+                </div>
+                <button type="submit" class="btn-send">Enviar mensaje</button>
+              </form>
+            </div>
+            <div class="inbox-success" id="inbox-success">
+              <div class="inbox-success-icon">✓</div>
+              <div class="inbox-success-title">Solicitud registrada</div>
+              <p class="inbox-success-desc">Tu mensaje está listo para conectarse. Me pondré en contacto contigo pronto.</p>
+              <span class="badge badge-green badge-dot">Inbox activo</span>
+            </div>
+          </div>
+
+          <div class="inbox-sidebar">
+            <div class="inbox-side-card">
+              <div class="inbox-side-title">Contacto directo</div>
+              <div class="inbox-contact-btns">
+                <!-- Edit: WhatsApp number -->
+                <a href="https://wa.me/525614257807" target="_blank" rel="noopener" class="btn-contact">
+                  <span class="btn-contact-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                  </span>
+                  WhatsApp
+                </a>
+                <!-- Edit: contact email -->
+                <a href="mailto:agmcti9@gmail.com" class="btn-contact">
+                  <span class="btn-contact-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  </span>
+                  agmcti9@gmail.com
+                </a>
+                <button class="btn-contact" onclick="scrollToSection('proyectos')">
+                  <span class="btn-contact-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  </span>
+                  Ver proyectos
+                </button>
+              </div>
+            </div>
+
+            <div class="inbox-side-card">
+              <div class="inbox-side-title">Estado del inbox</div>
+              <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem">
+                <span class="badge badge-green badge-dot">Inbox abierto</span>
+              </div>
+              <p style="font-size:.78rem;color:var(--text-secondary);line-height:1.6">Lead listo para conversar. Tiempo de respuesta habitual: menos de 24 horas.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main><!-- /content -->
+  </div><!-- /main-wrapper -->
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav id="mobile-nav" aria-label="Navegación móvil">
+    <div class="mobile-nav-inner">
+      <button class="mobile-nav-btn active" data-section="overview">
+        <span class="mnav-icon">⊞</span>
+        <span>Overview</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="proyectos">
+        <span class="mnav-icon">▣</span>
+        <span>Proyectos</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="stack">
+        <span class="mnav-icon">&lt;/&gt;</span>
+        <span>Stack</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="pipeline">
+        <span class="mnav-icon">▷</span>
+        <span>Pipeline</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="inbox">
+        <span class="mnav-icon">✉</span>
+        <span>Inbox</span>
+      </button>
+    </div>
+  </nav>
+
+</div><!-- /dashboard -->
+
+<!-- ============================================================
+     PROJECT DETAIL MODAL
+============================================================ -->
+<div id="project-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-project-name">
+  <div class="modal-card">
+    <button class="modal-close" id="modal-close-btn" aria-label="Cerrar">×</button>
+    <div class="modal-header">
+      <h3 class="modal-project-name" id="modal-project-name"></h3>
+      <div class="modal-badges" id="modal-badges"></div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-section">
+      <div class="modal-label">Descripción</div>
+      <p class="modal-text" id="modal-desc"></p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Problema</div>
+      <p class="modal-text" id="modal-problem"></p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Solución</div>
+      <p class="modal-text" id="modal-solution"></p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Valor generado</div>
+      <p class="modal-text" id="modal-value"></p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Stack</div>
+      <div class="modal-stack-tags" id="modal-stack"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Aprendizaje</div>
+      <p class="modal-text" id="modal-learning"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+'use strict';
+
+/* ────────────────────────────────────────────
+   DATA — Edit projects here
+──────────────────────────────────────────── */
+const PROJECT_DATA = [
+  {
+    id: 1, name: 'FreeLeads CRM', category: 'CRM', status: 'En desarrollo',
+    stackTags: ['Django', 'Python', 'APIs', 'WhatsApp', 'IA', 'Stripe'],
+    desc: 'CRM para gestión de leads, seguimiento comercial, WhatsApp multiagente, vendedor IA, llamadas dentro del CRM y reportes comerciales.',
+    problem: 'Equipos comerciales necesitan centralizar leads, dar seguimiento y evitar perder oportunidades entre múltiples canales.',
+    solution: 'Sistema CRM con módulos de gestión comercial, automatización, WhatsApp multiagente, reportes y lógica de vendedor IA integrada.',
+    value: 'Pensado para ordenar la operación comercial y mejorar la velocidad de respuesta ante nuevos leads.',
+    learning: 'Diseñar un producto comercial implica entender ventas, operación, datos y experiencia de usuario de forma integrada.'
+  },
+  {
+    id: 2, name: 'Norvian', category: 'Web', status: 'En producción',
+    stackTags: ['Web', 'CRM', 'Automatización', 'IA', 'Estrategia digital'],
+    desc: 'Proyecto de soluciones digitales: páginas web, CRM, agentes IA y software a la medida para negocios.',
+    problem: 'Negocios necesitan presencia digital y herramientas más claras para vender y operar mejor.',
+    solution: 'Narrativa de servicios, estructura comercial, diseño web, enfoque tecnológico y sistemas digitales a medida.',
+    value: 'Ayuda a comunicar tecnología de forma entendible, sobria y orientada a negocio real.',
+    learning: 'La tecnología se comunica mejor cuando se explica desde problemas reales, no desde tecnicismos.'
+  },
+  {
+    id: 3, name: 'Business Music Studio', category: 'SaaS', status: 'En desarrollo',
+    stackTags: ['Stripe', 'Dashboards', 'Multi-sucursal', 'Player', 'CRM'],
+    desc: 'Plataforma de música para negocios con suscripciones, control por sucursales, licenciamiento y gestión operativa.',
+    problem: 'Negocios necesitan gestionar música, sucursales, pagos y operación recurrente desde un mismo sistema centralizado.',
+    solution: 'Plataforma tipo SaaS con suscripciones, administración por sucursal y control operativo integrado.',
+    value: 'Pensado para ordenar una operación de música como servicio para negocios físicos con múltiples puntos.',
+    learning: 'Los productos recurrentes necesitan claridad en billing, operación y administración para funcionar bien.'
+  },
+  {
+    id: 4, name: 'Carrera Moto', category: 'E-commerce', status: 'En producción',
+    stackTags: ['Shopify', 'Liquid', 'Mailchimp', 'Cloudflare', 'Gamificación'],
+    desc: 'Trabajo con Shopify, integraciones, Liquid, newsletter y programa piloto Rider-to-Rider con gamificación para comunidad de influencers.',
+    problem: 'Un e-commerce necesita mejorar experiencia, captación, personalización y explorar dinámicas de comunidad.',
+    solution: 'Customizaciones Shopify, formularios, newsletter, integración Mailchimp, protección Cloudflare y concepto de gamificación.',
+    value: 'Convierte una tienda en una experiencia más conectada con comunidad, marketing y operación integrada.',
+    learning: 'E-commerce no solo es catálogo; también es experiencia, retención, confianza y automatización.'
+  },
+  {
+    id: 5, name: 'GaboTours CRM', category: 'CRM', status: 'Sistema interno',
+    stackTags: ['Django', 'Python', 'CRUD', 'Base de datos', 'Panel admin'],
+    desc: 'Sistema para reservas, clientes, paquetes, proveedores y gestión operativa para agencia de viajes.',
+    problem: 'La operación turística puede volverse dispersa entre clientes, paquetes, proveedores y reservaciones sin un sistema central.',
+    solution: 'CRM con módulos para gestionar información centralizada y facilitar procesos internos del negocio.',
+    value: 'Pensado para reducir desorden operativo y mejorar el control de reservas y seguimiento de clientes.',
+    learning: 'Un CRM útil empieza con buen modelado de datos y procesos claramente definidos desde el inicio.'
+  },
+  {
+    id: 6, name: 'Presumiendo México', category: 'Media', status: 'En producción',
+    stackTags: ['WordPress', 'APIs', 'Media', 'Diseño visual', 'Mobile'],
+    desc: 'Proyecto digital de contenido, experiencia visual, APIs, app, programación y optimización web para plataforma de medios.',
+    problem: 'Los proyectos de contenido necesitan buena presentación, navegación, integración y rendimiento para retener audiencia.',
+    solution: 'Trabajo en experiencia visual, componentes web, programación, APIs y optimización técnica de la plataforma.',
+    value: 'Mejora la forma en que el contenido se presenta, consume y conecta con otros canales digitales.',
+    learning: 'En medios digitales, diseño, contenido y rendimiento deben trabajar juntos para lograr resultados.'
+  },
+  {
+    id: 7, name: 'MundoVentura', category: 'Web', status: 'En producción',
+    stackTags: ['WordPress', 'Diseño comercial', 'SEO', 'UX'],
+    desc: 'Sitio para agencia de viajes enfocado en presentación comercial, generación de confianza, contacto y experiencia de usuario.',
+    problem: 'Una agencia de viajes necesita comunicar confianza, paquetes y contacto de forma clara para convertir visitantes.',
+    solution: 'Sitio web orientado a presentación comercial, experiencia de usuario clara y estructura de conversión.',
+    value: 'Facilita que el visitante entienda la oferta completa y pueda iniciar contacto de forma directa.',
+    learning: 'En turismo, la confianza visual y la claridad del mensaje son elementos clave de conversión.'
+  },
+  {
+    id: 8, name: 'UltraNoticias / Radio Ranchito', category: 'Media', status: 'En producción',
+    stackTags: ['WordPress', 'APIs', 'Ads Manager', 'SEO', 'Performance'],
+    desc: 'Trabajo con medios digitales, APIs, anuncios, programación, Google Ads Manager y optimización web para plataformas de noticias.',
+    problem: 'Los medios digitales necesitan integrar contenido, publicidad, rendimiento y experiencia de usuario de forma eficiente.',
+    solution: 'Componentes web, consumo de APIs, ajustes de anuncios, Google Ads Manager y optimización técnica continua.',
+    value: 'Ayuda a mejorar la operación digital, publicación, monetización y experiencia del usuario final.',
+    learning: 'Los sitios de medios requieren equilibrio constante entre contenido, monetización y performance técnico.'
+  }
+];
+
+/* ────────────────────────────────────────────
+   DATA — Edit stack here
+──────────────────────────────────────────── */
+const STACK_DATA = {
+  'Frontend': [
+    { name: 'HTML',       level: 'Uso frecuente' },
+    { name: 'CSS',        level: 'Uso frecuente' },
+    { name: 'JavaScript', level: 'Uso frecuente' }
+  ],
+  'CMS / E-commerce': [
+    { name: 'WordPress',   level: 'Uso frecuente' },
+    { name: 'Elementor',   level: 'Uso frecuente' },
+    { name: 'Shopify',     level: 'Proyecto real' },
+    { name: 'Liquid',      level: 'Proyecto real' },
+    { name: 'WooCommerce', level: 'Proyecto real' }
+  ],
+  'Backend': [
+    { name: 'Django',  level: 'Proyecto real' },
+    { name: 'Python',  level: 'Proyecto real' },
+    { name: 'APIs',    level: 'Integración avanzada' },
+    { name: 'Docker',  level: 'En aprendizaje' }
+  ],
+  'Pagos e integraciones': [
+    { name: 'Stripe',         level: 'Integración avanzada' },
+    { name: 'Cloudflare',     level: 'Proyecto real' },
+    { name: 'Mailchimp',      level: 'Proyecto real' },
+    { name: 'Brevo',          level: 'Proyecto real' },
+    { name: 'Automatizaciones', level: 'Uso frecuente' },
+    { name: 'IA / Agentes',   level: 'Proyecto real' }
+  ],
+  'Marketing / Analítica': [
+    { name: 'Google Analytics',       level: 'Uso frecuente' },
+    { name: 'Google Search Console',  level: 'Uso frecuente' },
+    { name: 'Google Ads Manager',     level: 'Proyecto real' },
+    { name: 'SEO técnico',            level: 'Uso frecuente' }
+  ],
+  'Ciberseguridad': [
+    { name: 'Fundamentos de seguridad web', level: 'En aprendizaje' },
+    { name: 'Buenas prácticas técnicas',    level: 'Uso frecuente' },
+    { name: 'Seguridad en aplicaciones',    level: 'En aprendizaje' }
+  ]
+};
+
+/* ────────────────────────────────────────────
+   DATA — Pipeline stages
+──────────────────────────────────────────── */
+const PIPELINE_STAGES = [
+  { num: '01', name: 'Diagnóstico',  desc: 'Entiendo el negocio, el problema real y lo que el sistema debe resolver antes de diseñar o programar.', value: 'Evita construir sin dirección.' },
+  { num: '02', name: 'Arquitectura', desc: 'Defino módulos, flujos, datos, roles e integraciones para que el proyecto tenga estructura desde el inicio.', value: 'Da orden técnico y operativo.' },
+  { num: '03', name: 'Diseño UI/UX', desc: 'Creo interfaces claras, usables y alineadas al objetivo del negocio.', value: 'Hace que la solución sea fácil de usar.' },
+  { num: '04', name: 'Desarrollo',   desc: 'Construyo el sistema, sitio o plataforma con enfoque funcional y escalable.', value: 'Convierte la idea en una herramienta real.' },
+  { num: '05', name: 'Integraciones',desc: 'Conecto pagos, formularios, automatizaciones, APIs, email marketing y herramientas externas.', value: 'Evita que el proyecto sea una pieza aislada.' },
+  { num: '06', name: 'Pruebas',      desc: 'Reviso flujos, responsividad, errores, rendimiento y experiencia del usuario.', value: 'Reduce fricción antes del lanzamiento.' },
+  { num: '07', name: 'Lanzamiento',  desc: 'Dejo el proyecto listo para publicarse, operar y medirse en contexto real.', value: 'Permite empezar a usarlo de inmediato.' },
+  { num: '08', name: 'Optimización', desc: 'Mejoro con datos, feedback y nuevas necesidades del negocio.', value: 'Mantiene el sistema en evolución.' }
+];
+
+/* ────────────────────────────────────────────
+   DATA — Activity timeline
+──────────────────────────────────────────── */
+const TIMELINE_DATA = [
+  { color: 'purple', date: 'Hoy',              cat: 'Producto',      catClass: 'badge-purple', text: 'Construcción de dashboards y módulos operativos para sistemas internos.' },
+  { color: 'cyan',   date: 'En progreso',       cat: 'CRM',           catClass: 'badge-cyan',   text: 'Desarrollo de CRMs para gestión comercial y seguimiento de leads.' },
+  { color: 'green',  date: 'Esta semana',       cat: 'E-commerce',    catClass: 'badge-green',  text: 'Trabajo con Shopify, Liquid y optimización de experiencia en tiendas online.' },
+  { color: 'orange', date: 'Reciente',          cat: 'Automatización', catClass: 'badge-orange', text: 'Integraciones con APIs y construcción de automatizaciones para flujos de negocio.' },
+  { color: 'warm',   date: 'Reciente',          cat: 'Web',           catClass: 'badge-warm',   text: 'Optimización de sitios web, SEO técnico y configuración de analítica.' },
+  { color: 'purple', date: 'En aprendizaje',    cat: 'Seguridad',     catClass: 'badge-orange', text: 'Exploración de ciberseguridad como línea profesional de crecimiento.' },
+  { color: 'cyan',   date: 'En progreso',       cat: 'UI/UX',         catClass: 'badge-cyan',   text: 'Diseño de interfaces para sistemas internos y productos digitales.' }
+];
+
+/* ────────────────────────────────────────────
+   UTILITIES
+──────────────────────────────────────────── */
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function getStatusBadge(status) {
+  const map = {
+    'En producción':    'badge-green',
+    'En desarrollo':    'badge-cyan',
+    'Sistema interno':  'badge-muted',
+    'Prototipo avanzado': 'badge-warm',
+    'Media platform':   'badge-purple',
+    'E-commerce':       'badge-orange'
+  };
+  return map[status] || 'badge-muted';
+}
+
+function getCatBadge(cat) {
+  const map = {
+    'CRM': 'badge-purple', 'Web': 'badge-cyan', 'E-commerce': 'badge-orange',
+    'Media': 'badge-warm', 'SaaS': 'badge-green', 'Automatización': 'badge-muted'
+  };
+  return map[cat] || 'badge-muted';
+}
+
+/* ────────────────────────────────────────────
+   LOGIN
+──────────────────────────────────────────── */
+function initLogin() {
+  const form   = $('#login-form');
+  const pwIn   = $('#login-password');
+  const eyeOn  = $('#eye-icon');
+  const eyeOff = $('#eye-off-icon');
+  const errBox = $('#login-error');
+
+  $('#toggle-pw-btn').addEventListener('click', () => {
+    const show = pwIn.type === 'password';
+    pwIn.type  = show ? 'text' : 'password';
+    eyeOn.style.display  = show ? 'none'  : '';
+    eyeOff.style.display = show ? ''      : 'none';
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const email = $('#login-email').value.trim();
+    const pass  = pwIn.value.trim();
+
+    if (!email || !pass) {
+      showLoginError('Ingresa tu correo y contraseña para continuar.');
+      return;
+    }
+
+    errBox.classList.remove('show');
+    form.style.display = 'none';
+    startLoginLoader();
+  });
+}
+
+function showLoginError(msg) {
+  const errBox = $('#login-error');
+  errBox.textContent = msg;
+  errBox.classList.add('show');
+  $('#login-email').classList.toggle('error', !$('#login-email').value.trim());
+  $('#login-password').classList.toggle('error', !$('#login-password').value.trim());
+}
+
+function startLoginLoader() {
+  const loader = $('#login-loader');
+  const step   = $('#loader-step');
+  loader.classList.add('show');
+
+  const steps = ['Validando acceso…', 'Cargando proyectos…', 'Abriendo workspace…'];
+  let i = 0;
+  step.textContent = steps[i];
+
+  function advance() {
+    i++;
+    if (i < steps.length) {
+      step.textContent = steps[i];
+      setTimeout(advance, 850);
+    } else {
+      setTimeout(showDashboard, 600);
+    }
+  }
+  setTimeout(advance, 850);
+}
+
+function showDashboard() {
+  $('#login-screen').style.display = 'none';
+  const dash = $('#dashboard');
+  dash.classList.remove('hidden');
+  dash.classList.add('visible');
+  initDashboard();
+}
+
+/* ────────────────────────────────────────────
+   DASHBOARD INIT
+──────────────────────────────────────────── */
+function initDashboard() {
+  renderStack();
+  renderPipeline();
+  renderTimeline();
+  renderProjects(PROJECT_DATA);
+  initNavigation();
+  initScrollSpy();
+  initMobileNav();
+  initHamburger();
+  initProjectControls();
+  initModal();
+  initContactForm();
+  initTopbarSearch();
+  // mostrar sección inicial y disparar contadores
+  const overview = document.getElementById('overview');
+  if (overview) overview.classList.add('s-visible');
+  setTimeout(triggerCounters, 120);
+}
+
+/* ────────────────────────────────────────────
+   NAVIGATION — SPA: muestra una sección a la vez
+──────────────────────────────────────────── */
+let currentSection = 'overview';
+
+function scrollToSection(id) { switchSection(id); } // alias para llamadas en HTML
+
+function switchSection(id) {
+  if (id === currentSection) return;
+
+  // ocultar sección actual
+  const prev = document.getElementById(currentSection);
+  if (prev) prev.classList.remove('s-visible');
+
+  // mostrar nueva
+  const next = document.getElementById(id);
+  if (next) {
+    next.classList.add('s-visible');
+    $('#content').scrollTop = 0;
+  }
+
+  currentSection = id;
+  setActiveNav(id);
+
+  // counters se re-disparan al entrar a overview
+  if (id === 'overview') triggerCounters();
+}
+
+function setActiveNav(id) {
+  $$('.nav-item').forEach(el => el.classList.remove('active'));
+  const navEl = $(`.nav-item[data-section="${id}"]`);
+  if (navEl) navEl.classList.add('active');
+
+  $$('.mobile-nav-btn').forEach(el => el.classList.remove('active'));
+  const mNavEl = $(`.mobile-nav-btn[data-section="${id}"]`);
+  if (mNavEl) mNavEl.classList.add('active');
+
+  const crumb = $('#breadcrumb-text');
+  if (crumb) {
+    const labels = { overview:'Overview', proyectos:'Proyectos', stack:'Stack', pipeline:'Pipeline', 'sobre-mi':'Sobre mí', actividad:'Actividad', inbox:'Inbox' };
+    crumb.textContent = labels[id] || id;
+  }
+}
+
+function initNavigation() {
+  $$('.nav-item').forEach(el => {
+    el.addEventListener('click', () => {
+      switchSection(el.dataset.section);
+      if (window.innerWidth <= 768) closeSidebar();
+    });
+  });
+}
+
+/* scroll-spy eliminado — la navegación SPA ya gestiona el estado activo */
+function initScrollSpy() {}
+
+/* ────────────────────────────────────────────
+   MOBILE SIDEBAR
+──────────────────────────────────────────── */
+function initHamburger() {
+  $('#hamburger-btn').addEventListener('click', () => {
+    document.body.classList.toggle('sidebar-open');
+    const overlay = $('#sidebar-overlay');
+    if (overlay) overlay.classList.toggle('show');
+  });
+  $('#sidebar-overlay').addEventListener('click', closeSidebar);
+}
+
+function closeSidebar() {
+  document.body.classList.remove('sidebar-open');
+  const overlay = $('#sidebar-overlay');
+  if (overlay) overlay.classList.remove('show');
+}
+
+function initMobileNav() {
+  $$('.mobile-nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchSection(btn.dataset.section));
+  });
+}
+
+/* ────────────────────────────────────────────
+   COUNTERS — se disparan al entrar a overview
+──────────────────────────────────────────── */
+let countersDone = false;
+
+function triggerCounters() {
+  if (countersDone) return;
+  countersDone = true;
+  $$('.metric-value[data-count]').forEach(el => animateCounter(el));
+}
+
+function initCounters() {} // vacío — se dispara desde initDashboard / switchSection
+
+function animateCounter(el) {
+  const target  = parseInt(el.dataset.count, 10);
+  const suffix  = el.dataset.suffix || '';
+  if (prefersReducedMotion()) { el.textContent = (target < 10 ? '0' + target : target) + suffix; return; }
+  const dur = 900;
+  const start = performance.now();
+  function tick(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / dur, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const val = Math.round(eased * target);
+    el.textContent = (val < 10 ? '0' + val : val) + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ────────────────────────────────────────────
+   PROJECTS RENDER
+──────────────────────────────────────────── */
+let activeCategory = 'Todos';
+let searchQuery    = '';
+
+function renderProjects(list) {
+  renderTable(list);
+  renderCards(list);
+}
+
+function renderTable(list) {
+  const tbody = $('#projects-tbody');
+  if (!tbody) return;
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:2rem">Sin resultados</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(p => `
+    <tr data-id="${p.id}">
+      <td>
+        <div>${p.name}</div>
+        <div class="table-stack">${p.stackTags.slice(0,3).join(' · ')}</div>
+      </td>
+      <td><span class="badge ${getCatBadge(p.category)}">${p.category}</span></td>
+      <td><span class="badge ${getStatusBadge(p.status)}">${p.status}</span></td>
+      <td style="color:var(--muted);font-size:.78rem">${p.stackTags.join(', ')}</td>
+      <td><button class="btn-outline" style="font-size:.75rem;padding:.3rem .7rem;white-space:nowrap" onclick="openModal(${p.id})">Ver detalle</button></td>
+    </tr>
+  `).join('');
+
+  tbody.querySelectorAll('tr').forEach(tr => {
+    tr.addEventListener('click', () => openModal(parseInt(tr.dataset.id)));
+  });
+}
+
+function renderCards(list) {
+  const container = $('#projects-cards');
+  if (!container) return;
+  if (!list.length) {
+    container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:2rem">Sin resultados</p>';
+    return;
+  }
+  container.innerHTML = list.map(p => `
+    <div class="project-card-item" onclick="openModal(${p.id})">
+      <div class="project-card-name">${p.name}</div>
+      <div class="project-card-meta">
+        <span class="badge ${getCatBadge(p.category)}">${p.category}</span>
+        <span class="badge ${getStatusBadge(p.status)}">${p.status}</span>
+      </div>
+      <div class="project-card-desc">${p.desc.slice(0, 120)}…</div>
+    </div>
+  `).join('');
+}
+
+function filterProjects() {
+  const q = searchQuery.toLowerCase();
+  const filtered = PROJECT_DATA.filter(p => {
+    const matchCat = activeCategory === 'Todos' || p.category === activeCategory;
+    const matchQ   = !q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.stackTags.join(' ').toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  renderProjects(filtered);
+}
+
+function initProjectControls() {
+  const searchIn = $('#project-search');
+  if (searchIn) {
+    searchIn.addEventListener('input', e => {
+      searchQuery = e.target.value;
+      filterProjects();
+    });
+  }
+
+  $$('.filter-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      $$('.filter-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeCategory = pill.dataset.cat;
+      filterProjects();
+    });
+  });
+}
+
+/* ────────────────────────────────────────────
+   MODAL
+──────────────────────────────────────────── */
+function initModal() {
+  $('#modal-close-btn').addEventListener('click', closeModal);
+  $('#project-modal').addEventListener('click', e => {
+    if (e.target === $('#project-modal')) closeModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+}
+
+function openModal(id) {
+  const p = PROJECT_DATA.find(x => x.id === id);
+  if (!p) return;
+
+  $('#modal-project-name').textContent = p.name;
+  $('#modal-badges').innerHTML = `
+    <span class="badge ${getCatBadge(p.category)}">${p.category}</span>
+    <span class="badge ${getStatusBadge(p.status)}">${p.status}</span>
+  `;
+  $('#modal-desc').textContent     = p.desc;
+  $('#modal-problem').textContent  = p.problem;
+  $('#modal-solution').textContent = p.solution;
+  $('#modal-value').textContent    = p.value;
+  $('#modal-learning').textContent = p.learning;
+  $('#modal-stack').innerHTML = p.stackTags.map(t => `<span class="modal-tag">${t}</span>`).join('');
+
+  const overlay = $('#project-modal');
+  overlay.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+
+  const focusable = overlay.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])');
+  if (focusable.length) focusable[0].focus();
+}
+
+function closeModal() {
+  $('#project-modal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+/* ────────────────────────────────────────────
+   STACK RENDER
+──────────────────────────────────────────── */
+function renderStack() {
+  const container = $('#stack-grid');
+  if (!container) return;
+
+  container.innerHTML = Object.entries(STACK_DATA).map(([group, items]) => `
+    <div>
+      <div class="stack-group-title">${group}</div>
+      <div class="stack-badges">
+        ${items.map(item => `
+          <div class="stack-badge">
+            ${item.name}
+            <span class="stack-badge-level">${item.level}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ────────────────────────────────────────────
+   PIPELINE RENDER
+──────────────────────────────────────────── */
+function renderPipeline() {
+  const track = $('#pipeline-track');
+  if (!track) return;
+
+  track.innerHTML = PIPELINE_STAGES.map(s => `
+    <div class="pipeline-stage">
+      <div class="pipeline-num">Etapa ${s.num}</div>
+      <div class="pipeline-name">${s.name}</div>
+      <div class="pipeline-desc">${s.desc}</div>
+      <div class="pipeline-value">${s.value}</div>
+    </div>
+  `).join('');
+}
+
+/* ────────────────────────────────────────────
+   TIMELINE RENDER
+──────────────────────────────────────────── */
+function renderTimeline() {
+  const tl = $('#timeline');
+  if (!tl) return;
+
+  tl.innerHTML = TIMELINE_DATA.map(item => `
+    <div class="timeline-item">
+      <div class="timeline-dot ${item.color}"></div>
+      <div class="timeline-meta">
+        <span class="timeline-date">${item.date}</span>
+        <span class="badge ${item.catClass}">${item.cat}</span>
+      </div>
+      <div class="timeline-text">${item.text}</div>
+    </div>
+  `).join('');
+}
+
+/* ────────────────────────────────────────────
+   CONTACT FORM
+──────────────────────────────────────────── */
+function initContactForm() {
+  const form = $('#contact-form');
+  if (!form) return;
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const name  = $('#cf-name').value.trim();
+    const email = $('#cf-email').value.trim();
+    const msg   = $('#cf-msg').value.trim();
+
+    if (!name || !email || !msg) return;
+
+    $('#inbox-form-wrap').style.display = 'none';
+    $('#inbox-success').classList.add('show');
+  });
+}
+
+/* ────────────────────────────────────────────
+   TOPBAR SEARCH (visual — syncs to projects)
+──────────────────────────────────────────── */
+function initTopbarSearch() {
+  const input = $('#topbar-search');
+  if (!input) return;
+  input.addEventListener('input', e => {
+    const q = e.target.value.trim();
+    if (q) {
+      searchQuery = q;
+      filterProjects();
+      switchSection('proyectos');
+      const projSearch = $('#project-search');
+      if (projSearch) projSearch.value = q;
+    }
+  });
+}
+
+/* ────────────────────────────────────────────
+   FONTS — carga garantizada con FontFace API
+──────────────────────────────────────────── */
+(function loadFonts() {
+  const base = 'https://fonts.gstatic.com/s/';
+  const fonts = [
+    { name: 'Inter',         w: '400', url: base + 'inter/v19/UcCO3FwrK3iLTeHuS_nVMrMxCp50ShasZBsmTpccobrfhOY.woff2' },
+    { name: 'Inter',         w: '500', url: base + 'inter/v19/UcCO3FwrK3iLTeHuS_nVMrMxCp50ShasZBsmTpccobrfhOY.woff2' },
+    { name: 'Inter',         w: '600', url: base + 'inter/v19/UcCO3FwrK3iLTeHuS_nVMrMxCp50ShasZBsmTpccobrfhOY.woff2' },
+    { name: 'Space Grotesk', w: '500', url: base + 'spacegrotesk/v16/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gozuM65p-oE3A.woff2' },
+    { name: 'Space Grotesk', w: '600', url: base + 'spacegrotesk/v16/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gozuM65p-oE3A.woff2' },
+    { name: 'Space Grotesk', w: '700', url: base + 'spacegrotesk/v16/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gozuM65p-oE3A.woff2' },
+  ];
+  fonts.forEach(f => {
+    const face = new FontFace(f.name, `url(${f.url})`, { weight: f.w });
+    face.load().then(loaded => document.fonts.add(loaded)).catch(() => {});
+  });
+})();
+
+/* ────────────────────────────────────────────
+   BOOT
+──────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', initLogin);
+</script>
+</body>
+</html>
