@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gabo Portafolio — Gabriel Muñoz</title>
+  <meta name="description" content="Portafolio de Gabo — Desarrollador web, constructor de sistemas y creador de experiencias digitales.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     LOGIN SCREEN
+============================================================ -->
+<div id="login-screen">
+  <div class="login-dots"></div>
+
+  <!-- topbar decorativa — misma línea visual del dashboard -->
+  <div class="login-topbar">
+    <span class="login-topbar-dot"></span>
+    <span class="login-topbar-label">Gabo Portafolio</span>
+    <span class="login-topbar-badge" id="login-topbar-badge">Sistema activo</span>
+    <button class="btn-lang" id="lang-toggle-login" onclick="toggleLang()" title="Switch language">EN</button>
+  </div>
+
+  <div class="login-card" role="main">
+    <div class="login-logo">
+      <span class="login-logo-icon">GM</span>
+      <div>
+        <div class="login-logo-name">Gabo Portafolio</div>
+        <div class="login-logo-sub">Web · E-commerce · Automatización</div>
+      </div>
+    </div>
+
+    <h1 class="login-title">Inicia sesión</h1>
+    <p class="login-subtitle">Accede al portafolio de Gabo.</p>
+
+    <div id="login-error" class="login-error" role="alert" aria-live="polite"></div>
+
+    <form id="login-form" novalidate>
+      <div class="login-field">
+        <label for="login-email">Correo electrónico</label>
+        <div class="login-input-wrap">
+          <input type="email" id="login-email" placeholder="tu@correo.com" value="gabo@workspace.mx" autocomplete="email">
+        </div>
+      </div>
+      <div class="login-field">
+        <label for="login-password">Contraseña</label>
+        <div class="login-input-wrap">
+          <input type="password" id="login-password" placeholder="••••••••" value="gabo2026" autocomplete="current-password">
+          <button type="button" class="toggle-pw" id="toggle-pw-btn" aria-label="Mostrar contraseña">
+            <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg id="eye-off-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn-login" id="login-btn">Iniciar sesión</button>
+    </form>
+
+    <div class="login-loader" id="login-loader" aria-live="polite">
+      <div class="loader-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="loader-step" id="loader-step">Validando acceso…</span>
+    </div>
+
+    <p class="login-footer">© 2026 Gabo Portafolio</p>
+  </div>
+</div>
+
+<!-- sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ============================================================
+     DASHBOARD
+============================================================ -->
+<div id="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" aria-label="Navegación principal">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="sidebar-avatar">GM</div>
+        <div>
+          <div class="sidebar-name">Gabo Portafolio</div>
+          <div class="sidebar-status">Disponible para proyectos</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul>
+        <li class="nav-item active" data-section="overview">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </span>
+          Overview
+        </li>
+        <li class="nav-item" data-section="proyectos">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </span>
+          Proyectos
+        </li>
+        <li class="nav-item" data-section="stack">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </span>
+          Stack
+        </li>
+        <li class="nav-item" data-section="sobre-mi">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          Sobre mí
+        </li>
+        <li class="nav-item" data-section="actividad">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </span>
+          Actividad
+        </li>
+        <li class="nav-item" data-section="inbox">
+          <span class="nav-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </span>
+          Inbox
+        </li>
+      </ul>
+    </nav>
+
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div id="main-wrapper">
+
+    <!-- TOPBAR -->
+    <header id="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger-btn" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="topbar-breadcrumb">
+          <span id="breadcrumb-prefix">Portafolio</span> / <strong id="breadcrumb-text">Overview</strong>
+        </div>
+      </div>
+      <div class="topbar-search">
+        <span class="topbar-search-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <input type="text" id="topbar-search" placeholder="Buscar proyectos, stack o procesos…" aria-label="Buscar">
+      </div>
+      <div class="topbar-right">
+        <button class="btn-lang" id="lang-toggle" onclick="toggleLang()" title="Switch language">EN</button>
+        <span class="topbar-badge" id="topbar-badge-text">Portafolio activo</span>
+        <button class="btn-cta" id="topbar-cta" onclick="scrollToSection('inbox')">Hablemos</button>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main id="content">
+
+      <!-- =========================================================
+           OVERVIEW
+      ========================================================= -->
+      <section id="overview" class="dash-section">
+        <div class="overview-hero">
+          <div>
+            <h1 class="overview-title">Gabriel Muñoz / Gabo</h1>
+            <div class="overview-role">Web Developer · WordPress · E-commerce · Integraciones</div>
+            <p class="overview-headline">Web Designer con experiencia práctica en WordPress, Elementor, e-commerce, HTML/CSS e integraciones.</p>
+            <p class="overview-desc">He trabajado en sitios para medios, agencias, tiendas, CRM y plataformas comerciales. Me gusta que una web no solo se vea bien, sino que ayude a vender, ordenar procesos y generar confianza.</p>
+            <div class="overview-btns">
+              <button class="btn-primary" onclick="scrollToSection('proyectos')">Ver proyectos</button>
+              <button class="btn-outline" onclick="scrollToSection('inbox')">Hablemos</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- metrics -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">Proyectos</div>
+            <div class="metric-value" data-count="16" data-suffix="">16</div>
+            <div class="metric-desc">Proyectos entregados</div>
+          </div>
+          <div class="metric-card metric-card--link" onclick="scrollToSection('stack')" title="Ver Stack">
+            <div class="metric-label">Herramientas</div>
+            <div class="metric-value" data-count="34" data-suffix="+">34+</div>
+            <div class="metric-desc">Tecnologías en producción</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Áreas</div>
+            <div class="metric-value" data-count="7" data-suffix="">07</div>
+            <div class="metric-desc">Áreas de trabajo</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Destacados</div>
+            <div class="metric-value" data-count="6" data-suffix="">06</div>
+            <div class="metric-desc">Casos de mayor impacto</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           PROYECTOS
+      ========================================================= -->
+      <section id="proyectos" class="dash-section">
+        <div class="section-eyebrow">Módulo 02</div>
+        <h2 class="section-heading">Proyectos</h2>
+        <p class="section-sub">Sitios web, tiendas, integraciones y plataformas que he construido para clientes reales.</p>
+
+        <p class="featured-heading">Proyectos destacados</p>
+        <div class="featured-grid" id="featured-grid"></div>
+
+        <div class="projects-controls">
+          <div class="project-search-wrap">
+            <span class="project-search-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <input type="text" id="project-search" placeholder="Buscar proyecto…" aria-label="Buscar proyecto">
+          </div>
+          <div class="filter-pills" id="filter-pills">
+            <button class="filter-pill active" data-cat="Todos">Todos</button>
+            <button class="filter-pill" data-cat="Web">Web</button>
+            <button class="filter-pill" data-cat="E-commerce">E-commerce</button>
+            <button class="filter-pill" data-cat="Media">Media</button>
+            <button class="filter-pill" data-cat="Automatización">Automatización</button>
+          </div>
+        </div>
+
+        <!-- desktop table -->
+        <div class="projects-table-wrap">
+          <table class="projects-table" id="projects-table">
+            <thead>
+              <tr>
+                <th>Proyecto</th>
+                <th>Tipo</th>
+                <th>Estado</th>
+                <th>Stack</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="projects-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- mobile cards -->
+        <div class="projects-cards" id="projects-cards"></div>
+      </section>
+
+      <!-- =========================================================
+           STACK
+      ========================================================= -->
+      <section id="stack" class="dash-section">
+        <div class="section-eyebrow">Módulo 03</div>
+        <h2 class="section-heading">Stack</h2>
+        <p class="section-sub">Tecnologías que uso en proyectos reales con clientes.</p>
+
+        <div class="stack-grid" id="stack-grid"></div>
+      </section>
+
+
+      <!-- =========================================================
+           SOBRE MÍ
+      ========================================================= -->
+      <section id="sobre-mi" class="dash-section">
+        <div class="section-eyebrow">Módulo 05</div>
+        <h2 class="section-heading">Sobre mí</h2>
+        <p class="section-sub">Web Developer · WordPress · E-commerce · Integraciones.</p>
+
+        <div class="about-grid">
+          <div class="about-profile-card">
+            <div class="about-avatar">GM</div>
+            <div class="about-name">Gabriel Muñoz</div>
+            <div class="about-alias">/ Gabo</div>
+            <div class="about-location">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;margin-right:3px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              México
+            </div>
+            <div class="about-traits">
+              <span class="badge badge-purple">Creativo</span>
+              <span class="badge badge-cyan">Técnico</span>
+              <span class="badge badge-green">Producto</span>
+              <span class="badge badge-warm">Negocio</span>
+              <span class="badge badge-muted">Aprendizaje continuo</span>
+              <span class="badge badge-orange">Ciberseguridad</span>
+            </div>
+          </div>
+
+          <div class="about-main">
+            <div class="about-bio">
+              <p class="about-bio-text">Soy Gabo. Me especializo en crear sitios web funcionales para negocios reales: desde landing pages y tiendas online hasta integraciones con pagos, formularios, automatizaciones y analítica.</p>
+              <p class="about-bio-text">He trabajado en proyectos para medios digitales, agencias, tiendas e-commerce, plataformas internas y CRM.</p>
+              <p class="about-bio-text">Me interesa que lo que construyo no solo se vea bien, sino que ayude a vender, ordenar procesos y generar confianza.</p>
+            </div>
+            <div class="about-building">
+              <div class="about-building-title">Actualmente estoy construyendo</div>
+              <div class="building-items">
+                <span class="badge badge-purple">Plugins WordPress</span>
+                <span class="badge badge-cyan">Dashboards</span>
+                <span class="badge badge-green">Automatizaciones</span>
+                <span class="badge badge-muted">Sitios web comerciales</span>
+                <span class="badge badge-warm">APIs e integraciones</span>
+                <span class="badge badge-orange">Proyectos de ciberseguridad</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           ACTIVIDAD
+      ========================================================= -->
+      <section id="actividad" class="dash-section">
+        <div class="section-eyebrow">Módulo 06</div>
+        <h2 class="section-heading">Actividad reciente</h2>
+        <p class="section-sub">En qué he estado trabajando últimamente.</p>
+
+        <div class="timeline" id="timeline"></div>
+      </section>
+
+      <!-- =========================================================
+           INBOX
+      ========================================================= -->
+      <section id="inbox" class="dash-section">
+        <div class="section-eyebrow">Módulo 07</div>
+        <h2 class="section-heading">Inbox</h2>
+
+        <div class="inbox-grid">
+          <div class="inbox-form-card">
+            <div id="inbox-form-wrap">
+              <h3 class="inbox-title">Escríbeme</h3>
+              <p class="inbox-desc">Mándame mensaje y vemos cómo convertirlo en una herramienta funcional.</p>
+              <form id="contact-form" novalidate>
+                <div class="form-field">
+                  <label for="cf-name">Nombre</label>
+                  <input type="text" id="cf-name" placeholder="Tu nombre">
+                </div>
+                <div class="form-field">
+                  <label for="cf-email">Correo electrónico</label>
+                  <input type="email" id="cf-email" placeholder="tu@correo.com">
+                </div>
+                <div class="form-field">
+                  <label for="cf-msg">Mensaje</label>
+                  <textarea id="cf-msg" placeholder="Cuéntame sobre tu proyecto o idea…"></textarea>
+                </div>
+                <button type="submit" class="btn-send">Enviar mensaje</button>
+              </form>
+            </div>
+            <div class="inbox-success" id="inbox-success">
+              <div class="inbox-success-icon">✓</div>
+              <div class="inbox-success-title">Solicitud registrada</div>
+              <p class="inbox-success-desc">Tu mensaje está listo para conectarse. Me pondré en contacto contigo pronto.</p>
+              <span class="badge badge-green badge-dot">Inbox activo</span>
+            </div>
+          </div>
+
+          <div class="inbox-sidebar">
+            <div class="inbox-side-card">
+              <div class="inbox-side-title">Contacto directo</div>
+              <div class="inbox-contact-btns">
+                <!-- Edit: WhatsApp number -->
+                <a href="https://wa.me/525614257807" target="_blank" rel="noopener" class="btn-contact">
+                  <span class="btn-contact-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                  </span>
+                  WhatsApp
+                </a>
+                <!-- Edit: contact email -->
+                <a href="mailto:agmcti9@gmail.com" class="btn-contact">
+                  <span class="btn-contact-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  </span>
+                  agmcti9@gmail.com
+                </a>
+                <button class="btn-contact" onclick="scrollToSection('proyectos')">
+                  <span class="btn-contact-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  </span>
+                  Ver proyectos
+                </button>
+              </div>
+            </div>
+
+            <div class="inbox-side-card">
+              <div class="inbox-side-title">Descargar CV</div>
+              <div class="inbox-contact-btns">
+                <a href="assets/docs/CV_Alfonso_Gabriel_Munoz_Chichia_es.pdf" download class="btn-contact">
+                  <span class="btn-contact-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  </span>
+                  CV Español
+                </a>
+                <a href="assets/docs/CV_Alfonso_Gabriel_Munoz_Chichia_en.pdf" download class="btn-contact" style="display:none">
+                  <span class="btn-contact-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  </span>
+                  CV English
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main><!-- /content -->
+  </div><!-- /main-wrapper -->
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav id="mobile-nav" aria-label="Navegación móvil">
+    <div class="mobile-nav-inner">
+      <button class="mobile-nav-btn active" data-section="overview">
+        <span class="mnav-icon">⊞</span>
+        <span>Overview</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="proyectos">
+        <span class="mnav-icon">▣</span>
+        <span>Proyectos</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="stack">
+        <span class="mnav-icon">&lt;/&gt;</span>
+        <span>Stack</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="inbox">
+        <span class="mnav-icon">✉</span>
+        <span>Inbox</span>
+      </button>
+    </div>
+  </nav>
+
+</div><!-- /dashboard -->
+
+<!-- ============================================================
+     PROJECT DETAIL MODAL
+============================================================ -->
+<div id="project-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-project-name">
+  <div class="modal-card">
+    <button class="modal-close" id="modal-close-btn" aria-label="Cerrar">×</button>
+    <div class="modal-header">
+      <h3 class="modal-project-name" id="modal-project-name"></h3>
+      <div class="modal-badges" id="modal-badges"></div>
+      <div class="modal-actions">
+        <a href="#" target="_blank" rel="noopener" class="btn-outline modal-site-link" id="modal-site-link">Visitar sitio</a>
+      </div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-meta-grid">
+      <div class="modal-section">
+        <div class="modal-label">Tipo</div>
+        <p class="modal-text" id="modal-type"></p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-label">Rol</div>
+        <p class="modal-text" id="modal-role"></p>
+      </div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Descripción</div>
+      <p class="modal-text" id="modal-desc"></p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Problema</div>
+      <p class="modal-text" id="modal-problem"></p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Mi aporte</div>
+      <p class="modal-text" id="modal-solution"></p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Valor generado</div>
+      <p class="modal-text" id="modal-value"></p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Stack</div>
+      <div class="modal-stack-tags" id="modal-stack"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Aprendizaje clave</div>
+      <p class="modal-text" id="modal-learning"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script src="assets/js/main.js"></script>
+</body>
+</html>
