@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Portada editorial ilustrada del proyecto"><rect width="960" height="540" fill="#E9E9DE"/>
+<rect x="0" y="0" width="960" height="540" fill="#EBEDE0"/><circle cx="795" cy="185" r="190" fill="#D7DDCA"/>
+<g fill="none" stroke="#708668" stroke-width="5" stroke-linecap="round"><path d="M700 590Q735 345 856 75"/><path d="M730 447Q660 430 648 333"/><path d="M773 331Q846 292 858 208"/><path d="M802 265Q736 218 752 148"/><path d="M828 197Q899 180 913 114"/></g>
+<g fill="#8BA078"><ellipse cx="671" cy="363" rx="48" ry="19" transform="rotate(54 671 363)"/><ellipse cx="822" cy="301" rx="53" ry="18" transform="rotate(-35 822 301)"/><ellipse cx="755" cy="212" rx="40" ry="15" transform="rotate(53 755 212)"/><ellipse cx="887" cy="156" rx="39" ry="14" transform="rotate(-42 887 156)"/></g>
+<text x="78" y="115" font-size="18" font-family="Arial,sans-serif" fill="#61755D" letter-spacing="5">TIENDA / SHOPIFY</text>
+<text x="72" y="285" font-size="90" font-family="Georgia,serif" fill="#263D30">Campo</text>
+<text x="72" y="386" font-size="105" font-style="italic" font-family="Georgia,serif" fill="#6E7B64">Emilia</text>
+<line x1="78" y1="426" x2="465" y2="426" stroke="#8D9883"/>
+<text x="78" y="470" font-size="20" font-family="Arial" fill="#4E6256">Diseño de comercio electrónico</text></svg>

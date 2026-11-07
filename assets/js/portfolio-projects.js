@@ -61,7 +61,8 @@ const PORTFOLIO_PROJECTS = [
     "url": null,
     "shot": null,
     "status": "Caso privado",
-    "image": null
+    "image": "assets/imgs/portfolio/medmarket-editorial.svg",
+    "image_kind": "editorial"
   },
   {
     "id": "aceros",
@@ -108,7 +109,8 @@ const PORTFOLIO_PROJECTS = [
     "url": "https://ultranoticias.com.mx/",
     "shot": null,
     "status": "Trabajo profesional",
-    "image": null
+    "image": "assets/imgs/portfolio/ultranoticias-editorial.svg",
+    "image_kind": "editorial"
   },
   {
     "id": "presumiendo",
@@ -171,7 +173,8 @@ const PORTFOLIO_PROJECTS = [
     "url": "https://freeleads.io/",
     "shot": null,
     "status": "Trabajo profesional",
-    "image": null
+    "image": "assets/imgs/portfolio/freeleads-editorial.svg",
+    "image_kind": "editorial"
   },
   {
     "id": "campo",
@@ -186,7 +189,8 @@ const PORTFOLIO_PROJECTS = [
     "url": "https://campoemilia.com/",
     "shot": null,
     "status": "Trabajo profesional",
-    "image": null
+    "image": "assets/imgs/portfolio/campo-emilia-editorial.svg",
+    "image_kind": "editorial"
   },
   {
     "id": "bms",
@@ -217,7 +221,8 @@ const PORTFOLIO_PROJECTS = [
     "url": "https://ultraacoustics.com/",
     "shot": null,
     "status": "Trabajo profesional",
-    "image": null
+    "image": "assets/imgs/portfolio/ultra-acoustics-editorial.svg",
+    "image_kind": "editorial"
   },
   {
     "id": "freepi",
@@ -232,7 +237,8 @@ const PORTFOLIO_PROJECTS = [
     "url": "https://freepi.io/",
     "shot": null,
     "status": "Trabajo profesional",
-    "image": null
+    "image": "assets/imgs/portfolio/freepi-editorial.svg",
+    "image_kind": "editorial"
   },
   {
     "id": "sonder",
@@ -247,7 +253,8 @@ const PORTFOLIO_PROJECTS = [
     "url": "https://www.sonder-radio.com/",
     "shot": null,
     "status": "Trabajo profesional",
-    "image": null
+    "image": "assets/imgs/portfolio/sonder-editorial.svg",
+    "image_kind": "editorial"
   }
 ];
 (function () {
@@ -271,7 +278,6 @@ const PORTFOLIO_PROJECTS = [
     security: 'Ciberseguridad'
   };
   let selected = 'all';
-  let observer = null;
 
   function escapeHTML(input) {
     return String(input).replace(/[&<>"']/g, ch => ({
@@ -291,7 +297,7 @@ const PORTFOLIO_PROJECTS = [
     const cover = src ? [
       '<div class="archive-entry-photo">',
       '<img src="', escapeHTML(src), '" alt="', kind, title,
-      '" loading="lazy" decoding="async" width="960" height="540">',
+      '" loading="lazy" decoding="async" fetchpriority="low" width="960" height="540">',
       photoNote,
       '<span class="archive-photo-unavailable" hidden>Imagen temporalmente no disponible</span>',
       '</div>'
@@ -312,24 +318,7 @@ const PORTFOLIO_PROJECTS = [
     ].join('');
   }
 
-  function reveal(entries) {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-      document.body.classList.contains('motion-off') || !('IntersectionObserver' in window)) {
-      entries.forEach(el => el.classList.add('is-visible'));
-      return;
-    }
-    if (observer) observer.disconnect();
-    observer = new IntersectionObserver(items => {
-      items.forEach(item => {
-        if (item.isIntersecting) {
-          item.target.classList.add('is-visible');
-          observer.unobserve(item.target);
-        }
-      });
-    }, { threshold: .07, rootMargin: '0px 0px 35px 0px' });
-    entries.forEach(el => observer.observe(el));
-  }
-
+  // Archive items remain visible without JavaScript-dependent entrance animations.
   function render() {
     const query = search.value.trim().toLocaleLowerCase('es');
     const rows = extras.filter(project => {
@@ -352,7 +341,7 @@ const PORTFOLIO_PROJECTS = [
       img.addEventListener('error', fail, { once: true });
       if (img.complete && img.naturalWidth === 0) fail();
     });
-    reveal([...host.querySelectorAll('.archive-entry')]);
+    // All cards are visible immediately; native lazy images prevent eager requests.
   }
 
   filters.forEach(button => button.addEventListener('click', () => {
@@ -361,7 +350,5 @@ const PORTFOLIO_PROJECTS = [
     render();
   }));
   search.addEventListener('input', render);
-  document.getElementById('motionBtn')?.addEventListener('click', () =>
-    [...host.querySelectorAll('.archive-entry')].forEach(entry => entry.classList.add('is-visible')));
   render();
 })();

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Portada editorial ilustrada del proyecto"><rect width="960" height="540" fill="#EDF4F1"/>
+<rect width="960" height="540" fill="#E8F2EE"/><rect x="468" y="62" width="421" height="404" rx="19" fill="white" stroke="#C6D9D3" stroke-width="3"/><rect x="487" y="82" width="383" height="47" rx="8" fill="#2A756C"/>
+<rect x="500" y="155" width="145" height="110" rx="12" fill="#E4F4EC"/><rect x="662" y="155" width="191" height="110" rx="12" fill="#EAF2F5"/>
+<path d="M515 214h30m-15-15v30" stroke="#60A58A" stroke-width="9" stroke-linecap="round"/><path d="M676 232l28-26 25 17 37-40 34 24" fill="none" stroke="#7DB1BC" stroke-width="6"/>
+<g stroke="#BCD2CC" stroke-width="9" stroke-linecap="round"><path d="M510 307h330M510 340h280M510 373h318M510 406h245"/></g>
+<text x="61" y="108" font-family="Arial" letter-spacing="4" font-size="16" fill="#648E80">SISTEMA / FULL STACK</text>
+<text x="58" y="258" font-family="Arial" font-size="82" font-weight="800" letter-spacing="-5" fill="#24564D">Med</text>
+<text x="58" y="346" font-family="Arial" font-size="79" font-weight="800" letter-spacing="-5" fill="#3B8B79">Market</text>
+<path d="M65 387h329" stroke="#6CA593" stroke-width="3"/><text x="67" y="433" font-size="17" font-family="Arial" fill="#4D796A">Producto digital / concepto visual</text></svg>
