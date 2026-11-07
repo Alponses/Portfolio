@@ -5,7 +5,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "soc",
     "name": "SOC Blue Team Lab",
     "group": "security",
-    "description": "Laboratorio defensivo con Wazuh, honeypot aislado y arquitectura de telemetría. Windows y Sysmon forman parte del siguiente entregable.",
+    "description": "Laboratorio con Wazuh 4.14.8, agente Windows 11 y Sysmon. Cinco fuentes verificadas el 5 de octubre de 2026; detecciones y casos de investigación siguen en desarrollo.",
     "tags": [
       "Wazuh",
       "Ubuntu",
@@ -115,7 +115,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "ultranoticias",
     "name": "Ultranoticias",
     "group": "wordpress",
-    "description": "Plugins y herramientas editoriales, soporte para publicidad y personalización en un medio digital.",
+    "description": "Trabajé en plugins WordPress para organización editorial y personalización de espacios publicitarios.",
     "tags": [
       "WordPress",
       "PHP",
@@ -129,7 +129,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "seal",
     "name": "SEAL Internacional",
     "group": "automation",
-    "description": "Digitalización de formularios, pagos y seguimiento administrativo mediante integración con WordPress.",
+    "description": "Integré formularios, pagos y seguimiento administrativo en un proceso comercial dentro de WordPress.",
     "tags": [
       "WordPress",
       "Pagos",
@@ -143,7 +143,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "presumiendo",
     "name": "Presumiendo México",
     "group": "wordpress",
-    "description": "Widgets y componentes para presentar contenido multimedia y experiencia editorial en WordPress.",
+    "description": "Desarrollé componentes de navegación y reproducción para programas, episodios y secciones de contenido en la plataforma web.",
     "tags": [
       "Elementor",
       "Plugins",
@@ -171,7 +171,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "mundoventura",
     "name": "MundoVentura",
     "group": "automation",
-    "description": "Mejoras a un sistema de reservas, pagos con Stripe y administración comercial.",
+    "description": "Extendí un sistema de reservas y la integración de Stripe para gestionar cobros y operaciones del equipo.",
     "tags": [
       "WordPress",
       "Stripe",
@@ -185,7 +185,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "carrera",
     "name": "Carrera Moto",
     "group": "shopify",
-    "description": "Integraciones de Shopify, ajustes de experiencia de compra y componentes editables para el equipo comercial.",
+    "description": "Personalicé fichas de producto: validación de tallas y colores, widgets editables, venta complementaria y accesos de compra.",
     "tags": [
       "Shopify",
       "Liquid",
@@ -213,7 +213,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "campo",
     "name": "Campo Emilia",
     "group": "shopify",
-    "description": "Desarrollo de experiencia de comercio electrónico y personalización de tema en Shopify.",
+    "description": "Desarrollé una tienda Shopify con personalización de tema y una experiencia de navegación orientada al catálogo.",
     "tags": [
       "Shopify",
       "Liquid",
@@ -321,24 +321,117 @@ const PORTFOLIO_PROJECTS = [
     "status": "Trabajo profesional"
   }
 ];
-(function(){
-const host=document.getElementById('archiveGrid'); if(!host)return;
-const search=document.getElementById('archiveSearch');const filters=[...document.querySelectorAll('[data-archive-filter]')];
-const counter=document.getElementById('archiveCount'); const empty=document.getElementById('archiveEmpty');
-const counts={all:PORTFOLIO_PROJECTS.length}; let current='all';
-const categories={security:'Ciberseguridad',software:'Apps & sistemas',wordpress:'Web & WordPress',shopify:'Shopify',automation:'Automatización'};
-function esc(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function card(x){const href=x.url?esc(x.url):'';const shot=x.shot?'https://s.wordpress.com/mshots/v1/'+encodeURIComponent(x.shot)+'?w=960':'';
-return '<article class="archive-card">'+
-'<div class="archive-media">'+(shot?'<img loading="lazy" decoding="async" alt="Vista pública de '+esc(x.name)+'" src="'+esc(shot)+'">':'')+
-'<div class="archive-fallback"><span>'+esc(categories[x.group])+'</span><b>'+esc(x.name)+'</b></div><span class="archive-badge">'+esc(x.status)+'</span></div>'+
-'<div class="archive-card-body"><div class="archive-card-top"><span>'+esc(categories[x.group])+'</span><span>2026 / PORTFOLIO</span></div><h3>'+esc(x.name)+'</h3><p>'+esc(x.description)+'</p>'+
-'<div class="archive-tags">'+x.tags.map(tag=>'<span>'+esc(tag)+'</span>').join('')+'</div>'+
-(x.url?'<a class="archive-card-link" target="_blank" rel="noopener noreferrer" href="'+href+'">'+(x.group==='security'?'Ver repositorio público':'Explorar sitio público')+' <span aria-hidden="true">↗</span></a>':'<span class="archive-card-note">Caso descriptivo · material interno no publicado</span>')+'</div></article>';
-}
-function render(){const q=search.value.trim().toLocaleLowerCase('es');const rows=PORTFOLIO_PROJECTS.filter(p=>(current==='all'||p.group===current)&&(!q||[p.name,p.description,p.group,...p.tags].join(' ').toLocaleLowerCase('es').includes(q)));
-host.innerHTML=rows.map(card).join('');counter.textContent=rows.length+' de '+PORTFOLIO_PROJECTS.length+' proyectos';empty.hidden=rows.length!==0;
-host.querySelectorAll('.archive-media img').forEach(img=>{img.addEventListener('error',()=>{img.hidden=true;}, {once:true});if(img.complete&&!img.naturalWidth)img.hidden=true;});
-}
-filters.forEach(btn=>btn.addEventListener('click',()=>{current=btn.dataset.archiveFilter;filters.forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));render();}));search.addEventListener('input',render);render();
+(function () {
+  const host = document.getElementById('archiveGrid');
+  if (!host) return;
+  const search = document.getElementById('archiveSearch');
+  const filters = [...document.querySelectorAll('[data-archive-filter]')];
+  const counter = document.getElementById('archiveCount');
+  const empty = document.getElementById('archiveEmpty');
+  const featured = new Set(['soc', 'diteh', 'video']);
+  const priority = ['carrera', 'presumiendo', 'campo', 'ultranoticias', 'bms', 'seal', 'mundoventura', 'huasca', 'radioactiva', 'acoustics'];
+  const extras = PORTFOLIO_PROJECTS.filter(project => !featured.has(project.id)).sort((a,b) => {
+    const weight = item => priority.includes(item.id) ? priority.indexOf(item.id) : (item.shot ? 100 : 200);
+    return weight(a) - weight(b);
+  });
+  const categories = {
+    software: 'Sistemas y aplicaciones',
+    wordpress: 'Web y WordPress',
+    shopify: 'Shopify',
+    automation: 'Integraciones y automatización',
+    security: 'Ciberseguridad'
+  };
+  let selected = 'all';
+  let observer = null;
+
+  function escapeHTML(input) {
+    return String(input).replace(/[&<>"']/g, ch => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
+  }
+
+  function entry(project, index) {
+    const title = escapeHTML(project.name);
+    const group = escapeHTML(categories[project.group] || project.group);
+    const description = escapeHTML(project.description);
+    const terms = project.tags.map(escapeHTML).join(' / ');
+    const destination = project.url ? escapeHTML(project.url) : '';
+    const src = project.shot
+      ? 'https://s.wordpress.com/mshots/v1/' + encodeURIComponent(project.shot) + '?w=1000'
+      : null;
+    const cover = src ? [
+      '<div class="archive-entry-photo">',
+      '<img src="', escapeHTML(src), '" alt="Vista del sitio público de ', title,
+      '" loading="lazy" decoding="async" width="960" height="540">',
+      '<span class="archive-photo-unavailable" hidden>Previsualización temporalmente no disponible</span>',
+      '</div>'
+    ].join('') : '';
+    return [
+      '<article class="archive-entry', src ? '' : ' archive-entry--text', '">',
+      cover,
+      '<div class="archive-entry-copy">',
+      '<div class="archive-entry-meta"><span>', String(index + 1).padStart(2, '0'),
+      ' / ', group, '</span></div>',
+      '<h3>', title, '</h3>',
+      '<p>', description, '</p>',
+      '<div class="archive-entry-stack">', terms, '</div>',
+      destination
+        ? '<a class="archive-entry-link" target="_blank" rel="noopener noreferrer" href="' + destination + '">Visitar sitio público <span aria-hidden="true">↗</span></a>'
+        : '<span class="archive-entry-private">Caso descriptivo · interfaz o código no publicados</span>',
+      '</div></article>'
+    ].join('');
+  }
+
+  function reveal(entries) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      document.body.classList.contains('motion-off') || !('IntersectionObserver' in window)) {
+      entries.forEach(el => el.classList.add('is-visible'));
+      return;
+    }
+    if (observer) observer.disconnect();
+    observer = new IntersectionObserver(items => {
+      items.forEach(item => {
+        if (item.isIntersecting) {
+          item.target.classList.add('is-visible');
+          observer.unobserve(item.target);
+        }
+      });
+    }, { threshold: .07, rootMargin: '0px 0px 35px 0px' });
+    entries.forEach(el => observer.observe(el));
+  }
+
+  function render() {
+    const query = search.value.trim().toLocaleLowerCase('es');
+    const rows = extras.filter(project => {
+      const categoryMatches = selected === 'all' || project.group === selected;
+      const text = [project.name, project.description, project.group, ...project.tags]
+        .join(' ').toLocaleLowerCase('es');
+      return categoryMatches && (!query || text.includes(query));
+    });
+    host.innerHTML = rows.map((project, index) => entry(project, index)).join('');
+    counter.textContent = query || selected !== 'all'
+      ? rows.length + ' resultados de ' + extras.length + ' proyectos adicionales'
+      : extras.length + ' proyectos adicionales · 3 casos destacados arriba';
+    empty.hidden = rows.length > 0;
+    host.querySelectorAll('.archive-entry-photo img').forEach(img => {
+      const fail = () => {
+        img.hidden = true;
+        const note = img.nextElementSibling;
+        if (note) note.hidden = false;
+      };
+      img.addEventListener('error', fail, { once: true });
+      if (img.complete && img.naturalWidth === 0) fail();
+    });
+    reveal([...host.querySelectorAll('.archive-entry')]);
+  }
+
+  filters.forEach(button => button.addEventListener('click', () => {
+    selected = button.dataset.archiveFilter;
+    filters.forEach(filter => filter.setAttribute('aria-pressed', String(filter === button)));
+    render();
+  }));
+  search.addEventListener('input', render);
+  document.getElementById('motionBtn')?.addEventListener('click', () =>
+    [...host.querySelectorAll('.archive-entry')].forEach(entry => entry.classList.add('is-visible')));
+  render();
 })();
