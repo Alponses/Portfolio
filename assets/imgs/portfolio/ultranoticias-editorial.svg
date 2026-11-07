@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Portada editorial ilustrada del proyecto"><rect width="960" height="540" fill="#E9EDEB"/>
+<rect x="0" y="0" width="960" height="540" fill="#F0F2EF"/><rect x="0" width="960" height="18" fill="#D8433E"/>
+<text x="76" y="114" font-family="Arial,sans-serif" font-size="17" letter-spacing="4" fill="#656B69">MEDIO DIGITAL / WORDPRESS</text>
+<text x="68" y="225" font-family="Arial,sans-serif" font-size="87" font-weight="900" letter-spacing="-5" fill="#1C2929">ULTRA</text>
+<text x="68" y="309" font-family="Arial,sans-serif" font-size="82" font-weight="900" letter-spacing="-4" fill="#D8433E">NOTICIAS</text>
+<path d="M72 350H882" stroke="#AEBBB6" stroke-width="2"/>
+<g fill="#C7D4CE"><rect x="72" y="379" width="245" height="120" rx="8"/><rect x="340" y="379" width="245" height="120" rx="8"/><rect x="608" y="379" width="274" height="120" rx="8"/></g>
+<rect x="72" y="379" width="245" height="14" fill="#D8433E"/><path d="M355 419h180m-180 26h150m-150 26h165M624 419h218m-218 26h190m-190 26h135" stroke="#5E7269" stroke-width="10" opacity=".5"/></svg>
