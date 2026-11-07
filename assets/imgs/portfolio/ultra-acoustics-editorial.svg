@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Portada editorial ilustrada del proyecto"><rect width="960" height="540" fill="#EAE9EA"/>
+<defs><linearGradient id="u" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#E8ECEF"/><stop offset="1" stop-color="#C8C9D4"/></linearGradient></defs>
+<rect width="960" height="540" fill="url(#u)"/><text x="62" y="92" font-family="Arial" font-size="17" letter-spacing="5" fill="#656378">REDISEÑO / CONTENIDOS</text>
+<text x="60" y="233" font-family="Arial" font-size="85" font-weight="700" letter-spacing="-5" fill="#26263D">Ultra</text>
+<text x="60" y="315" font-family="Arial" font-size="84" font-weight="700" letter-spacing="-5" fill="#5A5B83">Acoustics</text>
+<g fill="none" stroke="#777A9B" stroke-width="5" opacity=".85"><path d="M35 424Q80 340 125 424T215 424T305 424T395 424T485 424T575 424T665 424T755 424T845 424T935 424"/><path d="M35 444Q80 365 125 444T215 444T305 444T395 444T485 444T575 444T665 444T755 444T845 444T935 444" opacity=".45"/></g></svg>
