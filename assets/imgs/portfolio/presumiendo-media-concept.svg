@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" role="img" aria-labelledby="title desc">
+<title id="title">Portada conceptual para Presumiendo México</title><desc id="desc">Visual editorial original de una plataforma de televisión y contenidos digitales, sin contenido audiovisual del cliente.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#081F23"/><stop offset=".63" stop-color="#103B3C"/><stop offset="1" stop-color="#092326"/></linearGradient>
+<linearGradient id="pane" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#285F65"/><stop offset="1" stop-color="#153037"/></linearGradient>
+<linearGradient id="tile" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7CB2A2"/><stop offset="1" stop-color="#224A4A"/></linearGradient>
+<radialGradient id="halo"><stop stop-color="#42C4B7" stop-opacity=".17"/><stop offset="1" stop-color="#42C4B7" stop-opacity="0"/></radialGradient>
+<filter id="shade" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="24" stdDeviation="20" flood-color="#000" flood-opacity=".33"/></filter>
+</defs>
+<rect width="1280" height="720" fill="url(#bg)"/>
+<circle cx="1000" cy="60" r="530" fill="url(#halo)"/>
+<g stroke="#BFEDE4" stroke-opacity=".055"><path d="M0 100h1280M0 200h1280M0 300h1280M0 400h1280M0 500h1280M0 600h1280"/><path d="M120 0v720M240 0v720M360 0v720M480 0v720M600 0v720M720 0v720M840 0v720M960 0v720M1080 0v720M1200 0v720"/></g>
+<rect x="64" y="60" width="215" height="32" rx="16" fill="#215D58" stroke="#468B7D" stroke-opacity=".55"/>
+<circle cx="85" cy="76" r="4" fill="#A2E7CF"/>
+<text x="101" y="81" font-family="Arial,sans-serif" font-size="14" font-weight="700" letter-spacing="1" fill="#D7F5EA">PLATAFORMA WEB</text>
+<text x="63" y="245" font-family="Arial,Helvetica,sans-serif" font-size="82" letter-spacing="-4" font-weight="700" fill="#F0FBF7">Presumiendo</text>
+<text x="63" y="340" font-family="Arial,Helvetica,sans-serif" font-size="93" letter-spacing="-4" font-weight="700" fill="#78DDCA">México.</text>
+<path d="M69 374h409" stroke="#78DDCA" stroke-width="4"/>
+<text x="67" y="437" font-family="Arial,sans-serif" font-size="20" fill="#BCD4CE">Contenido, temporadas y televisión</text>
+<text x="67" y="468" font-family="Arial,sans-serif" font-size="20" fill="#BCD4CE">en una experiencia digital.</text>
+<g filter="url(#shade)">
+<rect x="628" y="107" width="579" height="491" rx="19" fill="#092126" stroke="#39736E" stroke-width="2"/>
+<rect x="628" y="107" width="579" height="53" rx="19" fill="#153C42"/><rect x="628" y="132" width="579" height="28" fill="#153C42"/>
+<circle cx="653" cy="133" r="5" fill="#65D1BE"/><circle cx="669" cy="133" r="5" fill="#65D1BE" fill-opacity=".45"/><circle cx="685" cy="133" r="5" fill="#65D1BE" fill-opacity=".25"/>
+<rect x="711" y="123" width="316" height="20" rx="9" fill="#2C5A5D"/>
+<rect x="647" y="182" width="534" height="203" rx="10" fill="url(#pane)"/>
+<circle cx="905" cy="282" r="63" fill="#59C2B5" fill-opacity=".12" stroke="#A8E3D6" stroke-opacity=".65" stroke-width="2"/>
+<path d="M888 250v64l52-32z" fill="#D6FBF3"/>
+<path d="M675 218h160M675 244h119" stroke="#C5EEE6" stroke-width="10" stroke-linecap="round" opacity=".35"/>
+<rect x="647" y="405" width="163" height="147" rx="9" fill="#254C54"/><rect x="831" y="405" width="163" height="147" rx="9" fill="#2E6062"/><rect x="1014" y="405" width="167" height="147" rx="9" fill="#265659"/>
+<path d="M671 506l30-40 28 18 44-53" fill="none" stroke="#8DD4C6" stroke-width="6" stroke-linecap="round"/>
+<path d="M854 507h114M854 526h83" stroke="#A6DCD2" stroke-opacity=".6" stroke-width="8" stroke-linecap="round"/>
+<circle cx="1098" cy="471" r="37" fill="#458681" stroke="#B5E7DF" stroke-width="2"/><path d="M1087 453v36l30-18z" fill="#DFFAF5"/>
+</g>
+<text x="65" y="641" font-family="Arial,sans-serif" font-size="17" letter-spacing="3" fill="#9DD8CD">WEB · CONTENIDOS · INTEGRACIONES</text>
+<text x="970" y="663" font-family="Arial,sans-serif" font-size="14" fill="#BBD5D0">VISTA CONCEPTUAL</text>
+</svg>

@@ -75,6 +75,24 @@ assert.ok(css.includes('grid-template-columns:minmax(0,44%) minmax(0,1fr)'), 'Ar
 assert.ok(css.includes('@media(max-width:560px){.archive-entry{grid-template-columns:1fr;'), 'Mobile should stack image and copy');
 assert.ok(js.includes("querySelector('.archive-photo-unavailable')"),'Image error should display the correct unavailable notice');
 
+// Preview quality and permission guardrails.
+const liveIds = ['campo','ultranoticias','freeleads','freepi','acoustics','sonder'];
+for (const id of liveIds) {
+  const item = projects.find(p => p.id === id);
+  assert.ok(item?.live_preview === item?.url,'Public preview must match documented site URL: '+id);
+  assert.ok(fs.existsSync(item.image),'Missing local fallback for '+id);
+}
+for (const id of ['presumiendo','carrera','medmarket']) {
+  const item = projects.find(p => p.id === id);
+  assert.ok(!item.live_preview,'No external thumbnail requested for unapproved/private case '+id);
+}
+assert.ok(fs.existsSync('assets/imgs/portfolio/presumiendo-media-concept.svg'),'Missing original media project cover');
+assert.ok(html.includes('assets/imgs/portfolio/presumiendo-media-concept.svg'),'New cover must be visible in featured section');
+assert.ok(js.includes('hydratePublicPreviews()'),'Public previews must load only near viewport');
+assert.ok(js.includes('picture.onerror = () => {}'),'Remote preview failures should retain local cover');
+assert.ok(js.includes("rootMargin: '140px 0px'"),'Previews must be proximity-triggered');
+assert.ok(!html.includes('Presumiendo_Mexico_Workana/01_PORTADA'),'Unapproved ZIP images must not be published');
+
 const inlineScripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
   .map(match => match[1]).filter(content => content.trim());
 for (const script of inlineScripts) new vm.Script(script, { filename: 'index.html:inline-script' });

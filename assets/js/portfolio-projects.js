@@ -110,7 +110,8 @@ const PORTFOLIO_PROJECTS = [
     "shot": null,
     "status": "Trabajo profesional",
     "image": "assets/imgs/portfolio/ultranoticias-editorial.svg",
-    "image_kind": "editorial"
+    "image_kind": "editorial",
+    "live_preview": "https://ultranoticias.com.mx/"
   },
   {
     "id": "presumiendo",
@@ -174,7 +175,8 @@ const PORTFOLIO_PROJECTS = [
     "shot": null,
     "status": "Trabajo profesional",
     "image": "assets/imgs/portfolio/freeleads-editorial.svg",
-    "image_kind": "editorial"
+    "image_kind": "editorial",
+    "live_preview": "https://freeleads.io/"
   },
   {
     "id": "campo",
@@ -190,7 +192,8 @@ const PORTFOLIO_PROJECTS = [
     "shot": null,
     "status": "Trabajo profesional",
     "image": "assets/imgs/portfolio/campo-emilia-editorial.svg",
-    "image_kind": "editorial"
+    "image_kind": "editorial",
+    "live_preview": "https://campoemilia.com/"
   },
   {
     "id": "bms",
@@ -222,7 +225,8 @@ const PORTFOLIO_PROJECTS = [
     "shot": null,
     "status": "Trabajo profesional",
     "image": "assets/imgs/portfolio/ultra-acoustics-editorial.svg",
-    "image_kind": "editorial"
+    "image_kind": "editorial",
+    "live_preview": "https://ultraacoustics.com/"
   },
   {
     "id": "freepi",
@@ -238,7 +242,8 @@ const PORTFOLIO_PROJECTS = [
     "shot": null,
     "status": "Trabajo profesional",
     "image": "assets/imgs/portfolio/freepi-editorial.svg",
-    "image_kind": "editorial"
+    "image_kind": "editorial",
+    "live_preview": "https://freepi.io/"
   },
   {
     "id": "sonder",
@@ -254,7 +259,8 @@ const PORTFOLIO_PROJECTS = [
     "shot": null,
     "status": "Trabajo profesional",
     "image": "assets/imgs/portfolio/sonder-editorial.svg",
-    "image_kind": "editorial"
+    "image_kind": "editorial",
+    "live_preview": "https://www.sonder-radio.com/"
   }
 ];
 (function () {
@@ -296,7 +302,8 @@ const PORTFOLIO_PROJECTS = [
     const photoNote = project.image_kind === 'editorial' ? '<span class="archive-cover-note">Vista editorial · no es captura del producto</span>' : '';
     const cover = src ? [
       '<div class="archive-entry-photo">',
-      '<img src="', escapeHTML(src), '" alt="', kind, title,
+      '<img src="', escapeHTML(src), '"', project.live_preview ? ' data-live-preview="' + escapeHTML(project.live_preview) + '"' : '',
+      ' alt="', kind, title,
       '" loading="lazy" decoding="async" fetchpriority="low" width="960" height="540">',
       photoNote,
       '<span class="archive-photo-unavailable" hidden>Imagen temporalmente no disponible</span>',
@@ -316,6 +323,42 @@ const PORTFOLIO_PROJECTS = [
         : '<span class="archive-entry-private">Caso descriptivo · interfaz o código no publicados</span>',
       '</div></article>'
     ].join('');
+  }
+
+  // Public-site previews are optional upgrades. The checked-in editorial cover
+  // stays visible if the screenshot service is slow, blocked or returns an error.
+  const provider = 'https://image.thum.io/get/noanimate/width/640/crop/380/maxAge/168/';
+  let previewObserver;
+  function hydratePublicPreviews() {
+    if (previewObserver) previewObserver.disconnect();
+    const targets = [...host.querySelectorAll('img[data-live-preview]')];
+    function requestPreview(img) {
+      if (img.dataset.previewRequested === 'true') return;
+      img.dataset.previewRequested = 'true';
+      const site = img.dataset.livePreview;
+      if (!/^https:\/\/[a-z0-9.-]+\/?/.test(site)) return;
+      const picture = new Image();
+      picture.decoding = 'async';
+      picture.fetchPriority = 'low';
+      picture.onload = () => {
+        if (!img.isConnected || picture.naturalWidth < 180 || picture.naturalHeight < 100) return;
+        img.src = picture.src;
+        img.alt = 'Vista pública reciente de ' + img.closest('.archive-entry')?.querySelector('h3')?.textContent;
+        const label = img.closest('.archive-entry-photo')?.querySelector('.archive-cover-note');
+        if (label) label.textContent = 'Vista del sitio público · puede haber cambiado';
+      };
+      picture.onerror = () => {}; // Keep the local cover when remote preview fails.
+      picture.src = provider + site;
+    }
+    if (!('IntersectionObserver' in window)) return; // Local images are already rendered.
+    previewObserver = new IntersectionObserver(entries => {
+      for (const item of entries) {
+        if (!item.isIntersecting) continue;
+        previewObserver.unobserve(item.target);
+        requestPreview(item.target);
+      }
+    }, {rootMargin: '140px 0px'});
+    targets.forEach(img => previewObserver.observe(img));
   }
 
   // Archive items remain visible without JavaScript-dependent entrance animations.
@@ -341,7 +384,8 @@ const PORTFOLIO_PROJECTS = [
       img.addEventListener('error', fail, { once: true });
       if (img.complete && img.naturalWidth === 0) fail();
     });
-    // All cards are visible immediately; native lazy images prevent eager requests.
+    hydratePublicPreviews();
+    // Local covers render immediately; remote previews upgrade only when a card comes near the viewport.
   }
 
   filters.forEach(button => button.addEventListener('click', () => {
