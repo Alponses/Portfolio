@@ -1,27 +1,38 @@
-# Portafolio — guía de imágenes y publicación
+# Gabriel Muñoz — Portafolio
 
-Este repositorio contiene la web pública de Gabriel Muñoz. La actualización `feat/visual-portfolio-projects-2026` conserva la portada editorial, agrega fotografías de **referencia** y un catálogo de proyectos filtrable.
+Sitio estático, publicado mediante GitHub Pages. Repositorio: `Alponses/Portfolio`.
 
-## Sustituir fotografías de referencia
+## Casos públicos
 
-1. Exporta una foto real tuya en **WebP** con buena iluminación: `assets/imgs/gabriel-portrait.webp` (vertical, idealmente 1200 × 1500 o proporción 4:5).
-2. Exporta una segunda fotografía real trabajando o frente a tu equipo: `assets/imgs/gabriel-workspace.webp` (horizontal o vertical; la página se adapta).
-3. Sube ambas rutas al repositorio. Mientras falten, el HTML muestra imágenes públicas de referencia de Unsplash, **que no corresponden a Gabriel**.
-4. Elimina los avisos «FOTO DE REFERENCIA» del HTML cuando hayas incorporado fotos reales.
+El archivo `assets/js/portfolio-projects.js` contiene **16 proyectos**. Cuatro se muestran en el bloque principal (DITEH, SOC Blue Team Lab, Video Factory y Presumiendo México) y **12 casos adicionales** aparecen en el archivo. El buscador trabaja sobre esos 12 casos sin duplicar los destacados.
 
-No hay fotografías personales sintéticas presentadas como auténticas.
+## Imágenes
 
-## Portafolio de proyectos
+- `assets/imgs/diteh.png`: imagen de DITEH ya presente en el repositorio antes de estos cambios.
+- `assets/imgs/portfolio/video-factory-panel.webp`: captura de panel entregada para el portafolio.
+- `assets/imgs/portfolio/mundo-ventura.webp`: captura de MundoVentura proporcionada por el usuario.
+- `assets/imgs/portfolio/business-music.webp`: captura de Business Music Studio proporcionada por el usuario.
+- `assets/imgs/portfolio/aceros-munoz.webp`: captura de Aceros Muñoz proporcionada por el usuario.
+- `assets/imgs/portfolio/viva-tu-salud.webp`: captura de Viva Tu Salud proporcionada por el usuario.
+- `assets/imgs/portfolio/presumiendo-case.webp` y `carrera-moto-case.webp`: **portadas editoriales originales** creadas para no publicar capturas cuyo permiso está pendiente. No son pantallas reales del producto.
+- La imagen de Wazuh se enlaza al repositorio público `Alponses/SOC-Blue-Team-Lab` y corresponde a una evidencia histórica del 05/oct/2026.
 
-- Archivo de proyectos: `assets/js/portfolio-projects.js`. Actualiza nombre, descripción, categoría, tecnologías, estado y vínculo desde ese archivo.
-- Capturas de sitios: los proyectos comerciales públicos usan una previsualización automatizada del sitio mediante WordPress mShots. Son vistas actuales del **sitio público**, no evidencia exacta de una versión entregada por el autor. La tarjeta conserva un diseño alternativo cuando la imagen no está disponible.
-- Proyectos privados: no enlazar a repositorios privados, no subir pantallas internas sin autorización, no exponer datos de clientes o pacientes, ni atribuir métricas no verificadas.
-- El laboratorio SOC únicamente describe entregables documentados y marca Windows/Sysmon como pendientes.
+Las imágenes subidas se exportaron a **WebP**, sin incluir las barras del navegador cuando aplicaba. Las imágenes bajo el primer pliegue se cargan en diferido. No se utiliza el servicio remoto mShots para evitar páginas de error 404 incrustadas.
 
-## Vista local
+**Permisos:** los paquetes de DITEH, Carrera Moto y Presumiendo México que tenían avisos de autorización pendiente no se publicaron. Para Presumiendo y Carrera Moto se incluyen portadas editoriales creadas aparte. Reemplazar estas portadas por capturas del cliente solo después de confirmar el permiso correspondiente.
 
-Abre `index.html` en un navegador o usa un servidor estático (por ejemplo `python3 -m http.server 8000`). No requiere build ni dependencias de npm.
+## Fotos personales pendientes
 
-## Publicación
+- `assets/imgs/gabriel-portrait.webp`: retrato 4:5 auténtico.
+- `assets/imgs/gabriel-workspace.webp`: foto auténtica del espacio de trabajo.
 
-Revisa la rama y las fotos antes de fusionar a `main`. Esta rama no cambia los archivos del antiguo prototipo en `assets/index.html`.
+Mientras no estén disponibles, la página identifica las fotografías como *de referencia*.
+
+## Validación
+
+```bash
+node --check assets/js/portfolio-projects.js
+node scripts/check-portfolio.mjs
+```
+
+No requiere Node ni servidor para que el visitante vea el sitio; estas instrucciones son para validar el repositorio.

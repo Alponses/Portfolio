@@ -1,40 +1,57 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
-const html=fs.readFileSync('index.html','utf8');
-const css=fs.readFileSync('assets/css/portfolio-enhancements.css','utf8');
-const js=fs.readFileSync('assets/js/portfolio-projects.js','utf8');
-assert.match(html,/<html lang="es">/);
-for (const id of ['inicio','sobre-mi','proyectos','archivo','seguridad','especialidades','experiencia','contacto']) {
-  assert.ok(html.includes('id="'+id+'"'),'Missing section '+id);
-}
-for(const f of ['assets/js/portfolio-projects.js','assets/css/portfolio-enhancements.css']){
-  assert.ok(fs.existsSync(f),'Missing asset '+f);
-  assert.ok(html.includes(f),'Unreferenced asset '+f);
-}
-for(const name of ['SOC Blue Team Lab','DITEH','Video Factory','Carrera Moto','Campo Emilia','Ultranoticias','SEAL Internacional','Business Music Studio']){
-  assert.ok(js.includes(name),'Missing project '+name);
-}
-const count=(js.match(/"id":/g)||[]).length;
-assert.ok(count>=20,'Expected 20+ documented project entries, got '+count);
-assert.ok(html.includes('gabriel-portrait.webp') && html.includes('gabriel-workspace.webp'));
-assert.ok(html.includes('FOTOGRAFÍA DE REFERENCIA'),'Missing photo disclosure');
-assert.ok(!html.includes("url:'https://github.com/Alponses/diteh'"),'Private code link should not appear');
-assert.ok(!html.includes("url:'https://github.com/Alponses/video-factory-control'"),'Private code link should not appear');
-assert.ok(css.includes('.archive-grid'));
-
 import vm from 'node:vm';
-const context={document:{getElementById:()=>null}};
-vm.runInNewContext(js+'; globalThis.testProjects = PORTFOLIO_PROJECTS;',context);
-const catalog=context.testProjects;
-assert.equal(catalog.length,23,'Catalog must retain 23 distinct case records');
-assert.equal(new Set(catalog.map(p=>p.id)).size,catalog.length,'Project identifiers must be unique');
-assert.equal(catalog.filter(p=>p.shot).length>=14,true,'Public projects should have site preview sources');
-assert.ok(js.includes("new Set(['soc', 'diteh', 'video'])"),'Main case studies must be excluded from the secondary archive');
-assert.ok(js.includes('mshots/v1/'),'Public-page preview source missing');
-assert.ok(html.includes('05/oct/2026') || html.includes('5 de octubre de 2026'),'SOC evidence should state its historical date');
-assert.ok(html.includes('windows-agent-dashboard.png'),'Public evidence screenshot reference missing');
-assert.ok(html.includes('assets/imgs/diteh.png'),'Existing image asset missing');
-assert.ok(fs.existsSync('assets/imgs/diteh.png'),'Referenced DITEH image must exist');
-assert.ok(!html.includes('Honeypot público aislado, todavía pendiente de desplegar')===false,'Honeypot status should be explicit');
 
-console.log('Portfolio smoke checks passed: '+count+' projects; CSS/JS references; navigation; privacy disclosures.');
+const html = fs.readFileSync('index.html', 'utf8');
+const css = fs.readFileSync('assets/css/portfolio-enhancements.css', 'utf8');
+const js = fs.readFileSync('assets/js/portfolio-projects.js', 'utf8');
+
+assert.match(html, /<html lang="es">/);
+for (const id of ['inicio','sobre-mi','proyectos','archivo','seguridad','especialidades','experiencia','contacto']) {
+  assert.ok(html.includes('id="' + id + '"'), 'Missing section ' + id);
+}
+for (const file of ['assets/js/portfolio-projects.js','assets/css/portfolio-enhancements.css']) {
+  assert.ok(fs.existsSync(file), 'Missing asset ' + file);
+  assert.ok(html.includes(file), 'Unreferenced asset ' + file);
+}
+
+const context = { document: { getElementById: () => null } };
+vm.runInNewContext(js + '; globalThis.testProjects = PORTFOLIO_PROJECTS;', context);
+const projects = context.testProjects;
+assert.equal(projects.length,16,'Expected 16 curated projects');
+assert.equal(new Set(projects.map(p => p.id)).size, projects.length,'Duplicated IDs');
+const ids = new Set(projects.map(p => p.id));
+
+for (const id of ['diteh','soc','video','presumiendo','mundoventura','bms','aceros','vts','carrera']) {
+  assert.ok(ids.has(id),'Missing required case ' + id);
+}
+for (const id of ['seal','huasca','radioactiva','arkan','tecno','norvian','inventario']) {
+  assert.ok(!ids.has(id),'Project marked for removal is still present: ' + id);
+}
+assert.ok(js.includes("new Set(['soc', 'diteh', 'video', 'presumiendo'])"),'Archive must exclude featured projects');
+assert.ok(!js.includes('mshots/v1'),'Unreliable screenshot proxy must not be used');
+assert.ok(!js.includes('s.wordpress.com'),'Unreliable screenshot proxy must not be used');
+
+for (const project of projects) {
+  if (project.image && !project.image.startsWith('https://')) {
+    assert.ok(fs.existsSync(project.image),'Missing image for ' + project.id + ': ' + project.image);
+  }
+}
+for (const id of ['diteh','soc','video','presumiendo']) {
+  assert.ok(html.includes('data-project="' + id + '"'),'Featured project missing ' + id);
+}
+assert.ok(!html.includes('data-project="web"'),'Old generic web case still exists');
+assert.equal((html.match(/class="featured-shot"/g) || []).length,4,'Expected four featured images');
+assert.ok(html.includes('assets/imgs/portfolio/video-factory-panel.webp'));
+assert.ok(html.includes('windows-agent-dashboard.png'));
+assert.ok(html.includes('5 de octubre de 2026') || html.includes('05/oct/2026'),'SOC evidence lacks date');
+assert.ok(html.includes('gabriel-portrait.webp') && html.includes('gabriel-workspace.webp'));
+assert.ok(html.includes('FOTOGRAFÍA DE REFERENCIA'));
+assert.ok(!html.includes("url:'https://github.com/Alponses/diteh'"));
+assert.ok(!html.includes("url:'https://github.com/Alponses/video-factory-control'"));
+assert.ok(css.includes('.featured-shot') && css.includes('.archive-entry-photo'));
+
+const inlineScripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
+  .map(match => match[1]).filter(content => content.trim());
+for (const script of inlineScripts) new vm.Script(script, { filename: 'index.html:inline-script' });
+console.log('Portfolio validation passed: '+projects.length+' cases; 4 featured; 7 removed; images and scripts verified.');
