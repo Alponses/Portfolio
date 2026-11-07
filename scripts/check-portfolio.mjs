@@ -68,6 +68,13 @@ assert.ok(css.includes('opacity:1;transform:none;'),'Archive should not be invis
 assert.ok(js.includes('loading="lazy"'),'Archive images must be lazy-loaded');
 assert.ok(!html.includes('animateCursor();\n\n  $(\'a, button\')'),'The cursor must not animate continuously when idle');
 
+// CSS regression: cover must use its grid column width, not derive its width from a fixed height.
+assert.ok(css.includes('.archive-entry-photo{width:100%;max-width:100%;height:auto;'), 'Image container must fit its grid track');
+assert.ok(css.includes('.archive-entry-photo img{position:absolute;inset:0;'), 'Cover image must not size its grid parent');
+assert.ok(css.includes('grid-template-columns:minmax(0,44%) minmax(0,1fr)'), 'Archive image and copy need bounded columns');
+assert.ok(css.includes('@media(max-width:560px){.archive-entry{grid-template-columns:1fr;'), 'Mobile should stack image and copy');
+assert.ok(js.includes("querySelector('.archive-photo-unavailable')"),'Image error should display the correct unavailable notice');
+
 const inlineScripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
   .map(match => match[1]).filter(content => content.trim());
 for (const script of inlineScripts) new vm.Script(script, { filename: 'index.html:inline-script' });
