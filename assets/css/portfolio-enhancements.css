@@ -138,3 +138,19 @@ body.motion-off .archive-entry{transition:none!important;opacity:1!important;tra
 .case-modal-photo[hidden]{display:none!important}
 .case-modal-photo img{max-width:100%;width:100%;height:auto;max-height:320px;object-fit:contain;display:block}
 .case-modal-photo figcaption{padding:10px 13px;color:#667065;font-size:10px;line-height:1.5}
+
+
+/* Featured project cases — genuine static assets, no fabricated dashboards */
+.project-cover.featured-photo-cover{background:#e6e9e2;isolation:isolate}
+.featured-photo-cover .cover-background{display:block;position:absolute;inset:0;overflow:hidden}
+.featured-photo-cover .featured-shot{display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:top center;filter:none;transition:filter .45s cubic-bezier(.22,1,.36,1)}
+.featured-photo-cover .featured-shot-label{position:absolute;bottom:18px;left:20px;font-size:10px;letter-spacing:.1em;font-weight:800;border:1px solid #fff8;color:#fff;background:#122219b8;backdrop-filter:blur(6px);border-radius:30px;padding:9px 13px;text-align:left;max-width:calc(100% - 38px)}
+.featured-photo-cover:hover .featured-shot{filter:saturate(1.06)}
+.featured-photo-cover.soc-cover .featured-shot{object-fit:contain;object-position:center;background:#0e1a17;padding:18px 20px 22px}
+.featured-photo-cover.diteh-cover .featured-shot{object-fit:contain;object-position:center;background:#d9e1ec;padding:16px 16px 27px}
+.featured-photo-cover.vf-cover .featured-shot{object-fit:cover;object-position:center}
+.featured-photo-cover.web-cover .featured-shot{object-fit:cover;object-position:center}
+.archive-entry-photo .archive-cover-note{position:absolute;left:10px;bottom:10px;z-index:2;background:#15231fcf;color:#f2f6f1;font-size:9px;line-height:1.4;letter-spacing:.03em;font-weight:700;padding:7px 10px;border-radius:6px;max-width:calc(100% - 20px)}
+.archive-entry-photo:has(img[hidden]) .archive-cover-note{display:none}
+@media (max-width:760px){.featured-photo-cover .featured-shot-label{font-size:8px;padding:7px 10px;left:12px;bottom:12px}.featured-photo-cover.soc-cover .featured-shot{padding:9px}.featured-photo-cover.diteh-cover .featured-shot{padding:8px}}
+@media (prefers-reduced-motion:reduce){.featured-photo-cover .featured-shot{transition:none!important}}
