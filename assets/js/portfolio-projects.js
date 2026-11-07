@@ -13,7 +13,9 @@ const PORTFOLIO_PROJECTS = [
     ],
     "url": "https://github.com/Alponses/SOC-Blue-Team-Lab",
     "shot": null,
-    "status": "Laboratorio documentado"
+    "status": "Laboratorio documentado",
+    "image": "https://raw.githubusercontent.com/Alponses/SOC-Blue-Team-Lab/main/evidence/deliverable-1/windows-agent-dashboard.png",
+    "image_kind": "screenshot"
   },
   {
     "id": "diteh",
@@ -27,13 +29,15 @@ const PORTFOLIO_PROJECTS = [
     ],
     "url": null,
     "shot": null,
-    "status": "Caso privado"
+    "status": "Caso privado",
+    "image": "assets/imgs/diteh.png",
+    "image_kind": "screenshot"
   },
   {
     "id": "video",
     "name": "Video Factory",
     "group": "automation",
-    "description": "Automatización audiovisual por trabajos y workers, con renderizado, control de publicación y validaciones de contenido.",
+    "description": "Herramientas de automatización audiovisual con panel operativo, trabajos, renderizado y seguimiento de publicaciones.",
     "tags": [
       "Node.js",
       "Docker",
@@ -41,7 +45,9 @@ const PORTFOLIO_PROJECTS = [
     ],
     "url": null,
     "shot": null,
-    "status": "Caso privado"
+    "status": "Caso privado",
+    "image": "assets/imgs/portfolio/video-factory-panel.webp",
+    "image_kind": "screenshot"
   },
   {
     "id": "medmarket",
@@ -54,26 +60,14 @@ const PORTFOLIO_PROJECTS = [
     ],
     "url": null,
     "shot": null,
-    "status": "Caso privado"
-  },
-  {
-    "id": "norvian",
-    "name": "Norvian CRM",
-    "group": "software",
-    "description": "Desarrollo de un CRM; los detalles internos y el repositorio permanecen privados.",
-    "tags": [
-      "CRM",
-      "Sistemas"
-    ],
-    "url": null,
-    "shot": null,
-    "status": "Caso privado"
+    "status": "Caso privado",
+    "image": null
   },
   {
     "id": "aceros",
     "name": "Aceros Muñoz",
     "group": "software",
-    "description": "Sitio comercial y propuesta de administración de inventario, proveedores y ventas. Proyecto en desarrollo.",
+    "description": "Sitio comercial y catálogo de materiales de construcción; arquitectura del panel de operaciones en diseño.",
     "tags": [
       "Web",
       "Operaciones",
@@ -81,27 +75,15 @@ const PORTFOLIO_PROJECTS = [
     ],
     "url": null,
     "shot": null,
-    "status": "En desarrollo"
-  },
-  {
-    "id": "inventario",
-    "name": "Gestión de inventario para taller",
-    "group": "software",
-    "description": "Prototipo de gestión de entradas, salidas, tareas y usuarios; implementación planeada en WordPress y MySQL.",
-    "tags": [
-      "WordPress",
-      "PHP",
-      "MySQL"
-    ],
-    "url": null,
-    "shot": null,
-    "status": "Prototipo"
+    "status": "En desarrollo",
+    "image": "assets/imgs/portfolio/aceros-munoz.webp",
+    "image_kind": "screenshot"
   },
   {
     "id": "vts",
     "name": "Viva Tu Salud — Revista digital",
     "group": "wordpress",
-    "description": "Experiencia de revista digital y publicación editorial sobre WordPress, con desarrollo de integraciones y visualización de ediciones.",
+    "description": "Sitio editorial con revista digital, portadas de ediciones e integración de contenidos en WordPress.",
     "tags": [
       "WordPress",
       "PHP",
@@ -109,7 +91,9 @@ const PORTFOLIO_PROJECTS = [
     ],
     "url": "https://vivatusalud.com/",
     "shot": null,
-    "status": "Caso comercial"
+    "status": "Caso comercial",
+    "image": "assets/imgs/portfolio/viva-tu-salud.webp",
+    "image_kind": "screenshot"
   },
   {
     "id": "ultranoticias",
@@ -122,50 +106,25 @@ const PORTFOLIO_PROJECTS = [
       "AdTech"
     ],
     "url": "https://ultranoticias.com.mx/",
-    "shot": "https://ultranoticias.com.mx/",
-    "status": "Trabajo profesional"
-  },
-  {
-    "id": "seal",
-    "name": "SEAL Internacional",
-    "group": "automation",
-    "description": "Integré formularios, pagos y seguimiento administrativo en un proceso comercial dentro de WordPress.",
-    "tags": [
-      "WordPress",
-      "Pagos",
-      "Workflows"
-    ],
-    "url": "https://sealinternacional.com/",
-    "shot": "https://sealinternacional.com/",
-    "status": "Trabajo profesional"
+    "shot": null,
+    "status": "Trabajo profesional",
+    "image": null
   },
   {
     "id": "presumiendo",
     "name": "Presumiendo México",
     "group": "wordpress",
-    "description": "Desarrollé componentes de navegación y reproducción para programas, episodios y secciones de contenido en la plataforma web.",
+    "description": "Desarrollo de la experiencia web para televisión digital: programas, episodios, navegación editorial y componentes multimedia.",
     "tags": [
       "Elementor",
       "Plugins",
       "Contenido"
     ],
     "url": "https://presumiendomexico.mx/",
-    "shot": "https://presumiendomexico.mx/",
-    "status": "Trabajo profesional"
-  },
-  {
-    "id": "radioactiva",
-    "name": "Radioactiva TX",
-    "group": "wordpress",
-    "description": "Reproductor web persistente y experiencia de escucha digital.",
-    "tags": [
-      "Streaming",
-      "JavaScript",
-      "UX"
-    ],
-    "url": "https://www.radioactivatx.org/",
-    "shot": "https://www.radioactivatx.org/",
-    "status": "Trabajo profesional"
+    "shot": null,
+    "status": "Trabajo profesional",
+    "image": "assets/imgs/portfolio/presumiendo-case.webp",
+    "image_kind": "editorial"
   },
   {
     "id": "mundoventura",
@@ -178,22 +137,26 @@ const PORTFOLIO_PROJECTS = [
       "Reservas"
     ],
     "url": "https://mundo-ventura.com.mx/",
-    "shot": "https://mundo-ventura.com.mx/",
-    "status": "Trabajo profesional"
+    "shot": null,
+    "status": "Trabajo profesional",
+    "image": "assets/imgs/portfolio/mundo-ventura.webp",
+    "image_kind": "screenshot"
   },
   {
     "id": "carrera",
     "name": "Carrera Moto",
     "group": "shopify",
-    "description": "Personalicé fichas de producto: validación de tallas y colores, widgets editables, venta complementaria y accesos de compra.",
+    "description": "Componentes Shopify para compra, variantes, widgets editables e integraciones de e-commerce.",
     "tags": [
       "Shopify",
       "Liquid",
       "E-commerce"
     ],
     "url": "https://carreramoto.mx/",
-    "shot": "https://carreramoto.mx/",
-    "status": "Trabajo profesional"
+    "shot": null,
+    "status": "Trabajo profesional",
+    "image": "assets/imgs/portfolio/carrera-moto-case.webp",
+    "image_kind": "editorial"
   },
   {
     "id": "freeleads",
@@ -206,8 +169,9 @@ const PORTFOLIO_PROJECTS = [
       "Producto"
     ],
     "url": "https://freeleads.io/",
-    "shot": "https://freeleads.io/",
-    "status": "Trabajo profesional"
+    "shot": null,
+    "status": "Trabajo profesional",
+    "image": null
   },
   {
     "id": "campo",
@@ -220,8 +184,9 @@ const PORTFOLIO_PROJECTS = [
       "Frontend"
     ],
     "url": "https://campoemilia.com/",
-    "shot": "https://campoemilia.com/",
-    "status": "Trabajo profesional"
+    "shot": null,
+    "status": "Trabajo profesional",
+    "image": null
   },
   {
     "id": "bms",
@@ -234,22 +199,10 @@ const PORTFOLIO_PROJECTS = [
       "Producto"
     ],
     "url": "https://businessmusic.studio/",
-    "shot": "https://businessmusic.studio/",
-    "status": "Trabajo profesional"
-  },
-  {
-    "id": "huasca",
-    "name": "Artesanías Huasca",
-    "group": "wordpress",
-    "description": "Tienda WooCommerce orientada a presentar productos artesanales con una experiencia visual cuidada.",
-    "tags": [
-      "WooCommerce",
-      "Elementor",
-      "UX"
-    ],
-    "url": "https://artesaniashuasca.com/",
-    "shot": "https://artesaniashuasca.com/",
-    "status": "Trabajo profesional"
+    "shot": null,
+    "status": "Trabajo profesional",
+    "image": "assets/imgs/portfolio/business-music.webp",
+    "image_kind": "screenshot"
   },
   {
     "id": "acoustics",
@@ -262,8 +215,9 @@ const PORTFOLIO_PROJECTS = [
       "Frontend"
     ],
     "url": "https://ultraacoustics.com/",
-    "shot": "https://ultraacoustics.com/",
-    "status": "Trabajo profesional"
+    "shot": null,
+    "status": "Trabajo profesional",
+    "image": null
   },
   {
     "id": "freepi",
@@ -276,35 +230,9 @@ const PORTFOLIO_PROJECTS = [
       "Frontend"
     ],
     "url": "https://freepi.io/",
-    "shot": "https://freepi.io/",
-    "status": "Trabajo profesional"
-  },
-  {
-    "id": "arkan",
-    "name": "Arkan Biotech",
-    "group": "wordpress",
-    "description": "Diseño e implementación de un sitio de información científica con énfasis en claridad visual.",
-    "tags": [
-      "Frontend",
-      "Diseño web"
-    ],
-    "url": "https://arkanbiotech.com/",
-    "shot": "https://arkanbiotech.com/",
-    "status": "Trabajo profesional"
-  },
-  {
-    "id": "tecno",
-    "name": "TecnoShop México",
-    "group": "wordpress",
-    "description": "Sitio comercial con catálogo y adaptación de interfaz.",
-    "tags": [
-      "Web",
-      "Catálogo",
-      "Frontend"
-    ],
-    "url": "https://tecnoshopmexico.com.mx/",
-    "shot": "https://tecnoshopmexico.com.mx/",
-    "status": "Trabajo profesional"
+    "shot": null,
+    "status": "Trabajo profesional",
+    "image": null
   },
   {
     "id": "sonder",
@@ -317,8 +245,9 @@ const PORTFOLIO_PROJECTS = [
       "Ads"
     ],
     "url": "https://www.sonder-radio.com/",
-    "shot": "https://www.sonder-radio.com/",
-    "status": "Trabajo profesional"
+    "shot": null,
+    "status": "Trabajo profesional",
+    "image": null
   }
 ];
 (function () {
@@ -328,8 +257,8 @@ const PORTFOLIO_PROJECTS = [
   const filters = [...document.querySelectorAll('[data-archive-filter]')];
   const counter = document.getElementById('archiveCount');
   const empty = document.getElementById('archiveEmpty');
-  const featured = new Set(['soc', 'diteh', 'video']);
-  const priority = ['carrera', 'presumiendo', 'campo', 'ultranoticias', 'bms', 'seal', 'mundoventura', 'huasca', 'radioactiva', 'acoustics'];
+  const featured = new Set(['soc', 'diteh', 'video', 'presumiendo']);
+  const priority = ['mundoventura', 'bms', 'aceros', 'vts', 'carrera', 'campo', 'ultranoticias', 'freeleads', 'freepi', 'acoustics', 'sonder', 'medmarket'];
   const extras = PORTFOLIO_PROJECTS.filter(project => !featured.has(project.id)).sort((a,b) => {
     const weight = item => priority.includes(item.id) ? priority.indexOf(item.id) : (item.shot ? 100 : 200);
     return weight(a) - weight(b);
@@ -356,14 +285,15 @@ const PORTFOLIO_PROJECTS = [
     const description = escapeHTML(project.description);
     const terms = project.tags.map(escapeHTML).join(' / ');
     const destination = project.url ? escapeHTML(project.url) : '';
-    const src = project.shot
-      ? 'https://s.wordpress.com/mshots/v1/' + encodeURIComponent(project.shot) + '?w=1000'
-      : null;
+    const src = project.image || null;
+    const kind = project.image_kind === 'editorial' ? 'Portada editorial original para ' : 'Captura del proyecto ';
+    const photoNote = project.image_kind === 'editorial' ? '<span class="archive-cover-note">Vista editorial · no es captura del producto</span>' : '';
     const cover = src ? [
       '<div class="archive-entry-photo">',
-      '<img src="', escapeHTML(src), '" alt="Vista del sitio público de ', title,
+      '<img src="', escapeHTML(src), '" alt="', kind, title,
       '" loading="lazy" decoding="async" width="960" height="540">',
-      '<span class="archive-photo-unavailable" hidden>Previsualización temporalmente no disponible</span>',
+      photoNote,
+      '<span class="archive-photo-unavailable" hidden>Imagen temporalmente no disponible</span>',
       '</div>'
     ].join('') : '';
     return [
@@ -410,8 +340,8 @@ const PORTFOLIO_PROJECTS = [
     });
     host.innerHTML = rows.map((project, index) => entry(project, index)).join('');
     counter.textContent = query || selected !== 'all'
-      ? rows.length + ' resultados de ' + extras.length + ' proyectos adicionales'
-      : extras.length + ' proyectos adicionales · 3 casos destacados arriba';
+      ? rows.length+ ' resultados de ' + extras.length + ' proyectos adicionales'
+      : extras.length + ' proyectos adicionales · 4 casos destacados arriba';
     empty.hidden = rows.length > 0;
     host.querySelectorAll('.archive-entry-photo img').forEach(img => {
       const fail = () => {
