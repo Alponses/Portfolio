@@ -132,3 +132,9 @@ body.dark .archive-entry-link{color:#e8f2e2;border-color:#738c75}
 body.dark .archive-entry--text{background:linear-gradient(110deg,#25342b,transparent);border-left-color:#7c9b81}
 body.motion-off .archive-entry{transition:none!important;opacity:1!important;transform:none!important}
 @media(prefers-reduced-motion:reduce){.archive-entry{transition:none!important;opacity:1!important;transform:none!important}.archive-entry-photo img{transition:none!important;transform:none!important}}
+
+/* Existing public project image inside a case study, not a duplicated homepage card */
+.case-modal-photo{margin:22px 0 6px;max-width:100%;overflow:hidden;border-radius:10px;border:1px solid #d6ddd2;background:#edf0ea}
+.case-modal-photo[hidden]{display:none!important}
+.case-modal-photo img{max-width:100%;width:100%;height:auto;max-height:320px;object-fit:contain;display:block}
+.case-modal-photo figcaption{padding:10px 13px;color:#667065;font-size:10px;line-height:1.5}
