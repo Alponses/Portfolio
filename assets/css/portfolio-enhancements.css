@@ -81,3 +81,5 @@ body.dark .about-photo-row p{color:#a3afa5;}
 @media (max-width:1050px){.archive-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.about-photo-row{grid-template-columns:280px 1fr;gap:32px;}}
 @media (max-width:760px){.hero-aside .visual-frame.photo-frame{border-radius:12px 12px 45px 12px;}.archive-section{padding:83px 0}.archive-header,.security-story-header{display:block}.archive-header p{margin-top:20px}.archive-grid{grid-template-columns:1fr}.archive-media{height:250px}.archive-toolbar{align-items:stretch}.archive-search{width:100%}.about-photo-row{grid-template-columns:1fr}.portrait-inline{max-width:100%;aspect-ratio:4/3}.security-story{padding:82px 0}.security-proof{grid-template-columns:1fr}.security-panel{padding:25px;}}
 @media (prefers-reduced-motion:reduce){.archive-card,.archive-media img{transition:none!important}.archive-card:hover,.archive-card:hover .archive-media img{transform:none!important;}}
+
+.modal-action[hidden]{display:none!important}
