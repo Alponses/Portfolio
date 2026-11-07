@@ -91,11 +91,11 @@ body.dark .about-photo-row p{color:#a3afa5;}
 .archive-header p{max-width:345px}
 .archive-toolbar{margin-bottom:20px}
 .archive-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px;row-gap:0;align-items:stretch}
-.archive-entry{display:grid;grid-template-columns:minmax(0,0.95fr) minmax(0,1fr);gap:19px;align-items:center;border-bottom:1px solid #d7ddd3;padding:27px 0;min-width:0;opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .6s cubic-bezier(.22,1,.36,1)}
-.archive-entry:nth-child(2n){transition-delay:.06s}
-.archive-entry.is-visible{opacity:1;transform:none}
+.archive-entry{display:grid;grid-template-columns:minmax(0,0.95fr) minmax(0,1fr);gap:19px;align-items:center;border-bottom:1px solid #d7ddd3;padding:27px 0;min-width:0;opacity:1;transform:none;}
+
+
 .archive-entry-photo{height:215px;min-width:0;overflow:hidden;position:relative;border-radius:9px;background:#e4e8e1;box-shadow:0 1px 0 #00000010}
-.archive-entry-photo img{width:100%;height:100%;display:block;object-fit:cover;object-position:top center;transition:transform .75s cubic-bezier(.22,1,.36,1);will-change:transform}
+.archive-entry-photo img{width:100%;height:100%;display:block;object-fit:cover;object-position:top center;transition:transform .3s cubic-bezier(.22,1,.36,1)}
 .archive-entry:hover .archive-entry-photo img{transform:scale(1.055)}
 .archive-entry-photo img[hidden]{display:none!important}
 .archive-photo-unavailable{position:absolute;inset:0;display:grid;place-items:center;padding:30px;color:#627066;font-size:12px;font-weight:600;text-align:center;background:linear-gradient(145deg,#e4e9e1,#cfd9cd)}
@@ -154,3 +154,9 @@ body.motion-off .archive-entry{transition:none!important;opacity:1!important;tra
 .archive-entry-photo:has(img[hidden]) .archive-cover-note{display:none}
 @media (max-width:760px){.featured-photo-cover .featured-shot-label{font-size:8px;padding:7px 10px;left:12px;bottom:12px}.featured-photo-cover.soc-cover .featured-shot{padding:9px}.featured-photo-cover.diteh-cover .featured-shot{padding:8px}}
 @media (prefers-reduced-motion:reduce){.featured-photo-cover .featured-shot{transition:none!important}}
+
+/* Render immediately; defer only the image transfer rather than hiding article content. */
+.archive-entry-photo{aspect-ratio:16/9;}
+.archive-entry-photo img{background-color:#e8ebe5;}
+.archive-entry-photo img[src$=".svg"]{object-fit:cover;object-position:center}
+@media (prefers-reduced-motion:reduce){.archive-entry-photo img{transform:none!important}}
