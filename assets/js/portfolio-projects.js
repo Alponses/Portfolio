@@ -335,7 +335,7 @@ const PORTFOLIO_PROJECTS = [
     host.querySelectorAll('.archive-entry-photo img').forEach(img => {
       const fail = () => {
         img.hidden = true;
-        const note = img.nextElementSibling;
+        const note = img.closest('.archive-entry-photo')?.querySelector('.archive-photo-unavailable');
         if (note) note.hidden = false;
       };
       img.addEventListener('error', fail, { once: true });
