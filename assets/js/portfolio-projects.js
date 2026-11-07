@@ -115,7 +115,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "ultranoticias",
     "name": "Ultranoticias",
     "group": "wordpress",
-    "description": "Plugins y herramientas editoriales, soporte para publicidad y personalización en un medio digital.",
+    "description": "Trabajé en plugins WordPress para organización editorial y personalización de espacios publicitarios.",
     "tags": [
       "WordPress",
       "PHP",
@@ -129,7 +129,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "seal",
     "name": "SEAL Internacional",
     "group": "automation",
-    "description": "Digitalización de formularios, pagos y seguimiento administrativo mediante integración con WordPress.",
+    "description": "Integré formularios, pagos y seguimiento administrativo en un proceso comercial dentro de WordPress.",
     "tags": [
       "WordPress",
       "Pagos",
@@ -143,7 +143,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "presumiendo",
     "name": "Presumiendo México",
     "group": "wordpress",
-    "description": "Widgets y componentes para presentar contenido multimedia y experiencia editorial en WordPress.",
+    "description": "Desarrollé componentes de navegación y reproducción para programas, episodios y secciones de contenido en la plataforma web.",
     "tags": [
       "Elementor",
       "Plugins",
@@ -171,7 +171,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "mundoventura",
     "name": "MundoVentura",
     "group": "automation",
-    "description": "Mejoras a un sistema de reservas, pagos con Stripe y administración comercial.",
+    "description": "Extendí un sistema de reservas y la integración de Stripe para gestionar cobros y operaciones del equipo.",
     "tags": [
       "WordPress",
       "Stripe",
@@ -185,7 +185,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "carrera",
     "name": "Carrera Moto",
     "group": "shopify",
-    "description": "Integraciones de Shopify, ajustes de experiencia de compra y componentes editables para el equipo comercial.",
+    "description": "Personalicé fichas de producto: validación de tallas y colores, widgets editables, venta complementaria y accesos de compra.",
     "tags": [
       "Shopify",
       "Liquid",
@@ -213,7 +213,7 @@ const PORTFOLIO_PROJECTS = [
     "id": "campo",
     "name": "Campo Emilia",
     "group": "shopify",
-    "description": "Desarrollo de experiencia de comercio electrónico y personalización de tema en Shopify.",
+    "description": "Desarrollé una tienda Shopify con personalización de tema y una experiencia de navegación orientada al catálogo.",
     "tags": [
       "Shopify",
       "Liquid",
@@ -329,7 +329,11 @@ const PORTFOLIO_PROJECTS = [
   const counter = document.getElementById('archiveCount');
   const empty = document.getElementById('archiveEmpty');
   const featured = new Set(['soc', 'diteh', 'video']);
-  const extras = PORTFOLIO_PROJECTS.filter(project => !featured.has(project.id));
+  const priority = ['carrera', 'presumiendo', 'campo', 'ultranoticias', 'bms', 'seal', 'mundoventura', 'huasca', 'radioactiva', 'acoustics'];
+  const extras = PORTFOLIO_PROJECTS.filter(project => !featured.has(project.id)).sort((a,b) => {
+    const weight = item => priority.includes(item.id) ? priority.indexOf(item.id) : (item.shot ? 100 : 200);
+    return weight(a) - weight(b);
+  });
   const categories = {
     software: 'Sistemas y aplicaciones',
     wordpress: 'Web y WordPress',
