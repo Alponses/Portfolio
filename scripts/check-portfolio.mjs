@@ -87,11 +87,18 @@ for (const id of ['presumiendo','carrera','medmarket']) {
   assert.ok(!item.live_preview,'No external thumbnail requested for unapproved/private case '+id);
 }
 assert.ok(fs.existsSync('assets/imgs/portfolio/presumiendo-media-concept.svg'),'Missing original media project cover');
-assert.ok(html.includes('assets/imgs/portfolio/presumiendo-media-concept.svg'),'New cover must be visible in featured section');
+assert.ok(html.includes('assets/imgs/portfolio/presumiendo-captura-real.webp'),'Real Presumiendo cover must be visible in featured section');
+assert.ok(fs.existsSync('assets/imgs/portfolio/presumiendo-captura-real.webp'),'Authorized real cover asset must be committed');
+assert.ok(fs.statSync('assets/imgs/portfolio/presumiendo-captura-real.webp').size < 120000,'Optimized portfolio screenshot should remain lightweight');
+const presumiendo = projects.find(p => p.id === 'presumiendo');
+assert.equal(presumiendo.image,'assets/imgs/portfolio/presumiendo-captura-real.webp');
+assert.equal(presumiendo.image_kind,'screenshot','Presumiendo must not be presented as a conceptual case anymore');
+assert.ok(html.includes('CAPTURAS DEL SITIO'));
+assert.ok(css.includes('presumiendo-real-cover .featured-shot'),'Real screenshot should not be cropped');
 assert.ok(js.includes('hydratePublicPreviews()'),'Public previews must load only near viewport');
 assert.ok(js.includes('picture.onerror = () => {}'),'Remote preview failures should retain local cover');
 assert.ok(js.includes("rootMargin: '140px 0px'"),'Previews must be proximity-triggered');
-assert.ok(!html.includes('Presumiendo_Mexico_Workana/01_PORTADA'),'Unapproved ZIP images must not be published');
+assert.ok(!html.includes('AUTORIZACIÓN PENDIENTE'),'Portfolio should not state permission is pending after user confirmation');
 
 const inlineScripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
   .map(match => match[1]).filter(content => content.trim());

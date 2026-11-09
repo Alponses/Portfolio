@@ -164,3 +164,6 @@ body.motion-off .archive-entry{transition:none!important;opacity:1!important;tra
 /* Gallery images must fill their own grid track, never set the track width. */
 .archive-entry-photo,.archive-entry-copy{box-sizing:border-box;min-inline-size:0}
 .archive-entry-copy h3,.archive-entry-copy p{max-inline-size:100%;overflow-wrap:break-word}
+
+/* Authorized Presumiendo México case: show the complete historical website composition. */
+.featured-photo-cover.presumiendo-real-cover .featured-shot{object-fit:contain;object-position:center;background:#061e21}

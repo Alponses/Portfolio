@@ -126,8 +126,8 @@ const PORTFOLIO_PROJECTS = [
     "url": "https://presumiendomexico.mx/",
     "shot": null,
     "status": "Trabajo profesional",
-    "image": "assets/imgs/portfolio/presumiendo-case.webp",
-    "image_kind": "editorial"
+    "image": "assets/imgs/portfolio/presumiendo-captura-real.webp",
+    "image_kind": "screenshot"
   },
   {
     "id": "mundoventura",
